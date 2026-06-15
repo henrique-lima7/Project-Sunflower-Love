@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>José Henrique & Nicoly — 5 Anos</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --amarelo: #D4A017;
+      --amarelo-claro: #F5DFA0;
+      --amarelo-palido: #FBF3D5;
+      --ocre: #C17B2A;
+      --ocre-escuro: #8B5A1A;
+      --azul: #4A7BA7;
+      --azul-claro: #8AAFC8;
+      --azul-escuro: #2C5070;
+      --verde: #6B8C5A;
+      --verde-escuro: #3D5C2E;
+      --marrom: #7A4E2D;
+      --creme: #FAF3E0;
+      --creme-escuro: #F0E6C8;
+      --texto: #3A2A1A;
+      --texto-suave: #6B5040;
+      --bg-dark: #1A1208;
+      --surface-dark: #241A0A;
+      --surface2-dark: #2E2010;
+      --texto-dark: #F5DFA0;
+      --texto-suave-dark: #C8A86A;
+    }
+    body.dark-mode {
+      --creme: #1A1208;
+      --creme-escuro: #241A0A;
+      --texto: #F5DFA0;
+      --texto-suave: #C8A86A;
+      --amarelo-palido: #2E2010;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background-color: var(--creme);
+      color: var(--texto);
+      overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(212,160,23,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 85% 70%, rgba(74,123,167,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(107,140,90,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.5s;
+    }
+
+    /* ── DARK MODE TOGGLE ── */
+    .dark-toggle {
+      position: fixed; top: 1.2rem; right: 1.2rem; z-index: 1000;
+      background: rgba(250,243,224,0.85); border: 1px solid var(--amarelo);
+      border-radius: 2rem; padding: 0.4rem 1rem; cursor: pointer;
+      font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em;
+      color: var(--ocre-escuro); backdrop-filter: blur(8px);
+      transition: all 0.3s ease; display: flex; align-items: center; gap: 0.4rem;
+    }
+    body.dark-mode .dark-toggle { background: rgba(36,26,10,0.85); color: var(--amarelo-claro); }
+    .dark-toggle:hover { transform: scale(1.05); }
+
+    /* ── GIRASSÓIS DECORATIVOS ── */
+    .sunflower-deco { position: fixed; pointer-events: none; z-index: 0; opacity: 0.07; font-size: 14rem; user-select: none; transition: transform 0.1s ease-out; }
+    .sunflower-deco.top-left  { top: -3rem; left: -3rem; transform: rotate(-20deg); }
+    .sunflower-deco.bot-right { bottom: -3rem; right: -3rem; transform: rotate(15deg); }
+
+    /* ── WRAPPER ── */
+    .wrapper { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ══ HERO COM KEN BURNS ══ */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 4rem 1.5rem; position: relative; overflow: hidden;
+    }
+    .hero-bg {
+  display: none;
+}
+    body.dark-mode .hero-bg { filter: brightness(0.22) saturate(0.7); }
+    @keyframes kenBurns {
+      0%   { transform: scale(1)    translateX(0%)   translateY(0%); }
+      25%  { transform: scale(1.06) translateX(-1%)  translateY(-1%); }
+      50%  { transform: scale(1.1)  translateX(1%)   translateY(-0.5%); }
+      75%  { transform: scale(1.07) translateX(-0.5%) translateY(1%); }
+      100% { transform: scale(1.04) translateX(0.5%) translateY(0%); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom,
+        rgba(26,18,8,0.3) 0%,
+        rgba(26,18,8,0.1) 40%,
+        rgba(26,18,8,0.5) 100%);
+    }
+    .hero > *:not(.hero-bg):not(.hero-overlay):not(.hero-scroll) { position: relative; z-index: 2; }
+    .hero-badge {
+      display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.75rem;
+      font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--amarelo-claro); border: 1px solid rgba(245,223,160,0.6);
+      padding: 0.35rem 1.2rem; border-radius: 2rem; margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 1s ease 0.3s forwards;
+      backdrop-filter: blur(4px); background: rgba(212,160,23,0.15);
+    }
+
+    .hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  font-weight: 300; line-height: 1.1;
+  color: var(--texto);
+  opacity: 0; animation: fadeUp 1s ease 0.6s forwards;
+  text-shadow: none;
+}
+    
+    .hero h1 em { color: var(--ocre); font-style: italic; }
+    .hero-sub {
+  margin-top: 1.5rem; font-size: 1rem; font-weight: 300;
+  letter-spacing: 0.15em; color: var(--texto-suave);
+  opacity: 0; animation: fadeUp 1s ease 0.9s forwards;
+}
+
+    /* ── CONTADOR ── */
+    .contador-wrapper { margin-top: 2.5rem; opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
+    .contador-grid { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
+    .contador-item {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(212,160,23,0.15); border: 1px solid rgba(193,123,42,0.35);
+      border-radius: 0.8rem; padding: 0.6rem 0.9rem; min-width: 72px;
+      backdrop-filter: blur(8px);
+    }
+    .contador-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; color: var(--ocre-escuro); line-height: 1; font-variant-numeric: tabular-nums; }
+    .contador-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--texto-suave); margin-top: 0.2rem; }
+
+    /* ── STATS CARDS ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+    .stat-card {
+      background: rgba(245,223,160,0.15); border: 1px solid rgba(212,160,23,0.25);
+      border-radius: 1rem; padding: 1.4rem 1rem; text-align: center;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+    }
+    .stat-card.visible { opacity: 1; transform: translateY(0); }
+    .stat-card:hover { box-shadow: 0 8px 30px rgba(193,123,42,0.15); }
+    .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 400; color: var(--ocre); display: block; line-height: 1; }
+    .stat-num-animated { display: inline-block; transition: transform 0.3s ease; }
+    .stat-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: #1a1a1a; margin-top: 0.5rem; display: block; }
+    .stat-icon { font-size: 1.4rem; margin-bottom: 0.5rem; display: block; }
+
+    /* ── HERO SCROLL ── */
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--texto-suave);
+      text-transform: uppercase; opacity: 0; animation: fadeUp 1s ease 1.5s forwards; z-index: 2;
+    }
+    .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--ocre), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5rem 0; }
+    .section-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--azul); font-weight: 500; margin-bottom: 1rem; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--texto); margin-bottom: 2rem; }
+    .section-title em { color: var(--ocre); font-style: italic; }
+    p.body-text { font-size: 1rem; line-height: 1.9; color: var(--texto-suave); font-weight: 300; max-width: 640px; }
+    p.body-text + p.body-text { margin-top: 1.2rem; }
+
+    /* ── DIVIDER ── */
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 3rem 0; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--amarelo-claro), transparent); }
+    .divider-icon { font-size: 1.2rem; color: var(--amarelo); }
+
+    /* ── SOBRE NÓS ── */
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+    .sobre-card { background: rgba(245,223,160,0.2); border: 1px solid rgba(212,160,23,0.25); border-radius: 1rem; padding: 2rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .sobre-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(193,123,42,0.12); }
+    .sobre-card-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .sobre-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--ocre-escuro); margin-bottom: 0.75rem; }
+    .sobre-card p { font-size: 0.9rem; line-height: 1.8; color: var(--texto-suave); font-weight: 300; }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 2rem; margin-top: 3rem; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--amarelo), var(--azul-claro), transparent); }
+    .timeline-item { position: relative; margin-bottom: 2.5rem; opacity: 0; transform: translateX(-20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+    .timeline-dot { position: absolute; left: -2.4rem; top: 0.35rem; width: 12px; height: 12px; border-radius: 50%; background: var(--amarelo); border: 2px solid var(--creme); box-shadow: 0 0 0 2px var(--amarelo-claro); }
+    .timeline-year { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--azul); font-weight: 500; margin-bottom: 0.4rem; }
+    .timeline-text { font-size: 0.95rem; line-height: 1.8; color: var(--texto-suave); font-weight: 300; }
+
+    /* ══ VISUALIZADOR DE MÚSICA ══ */
+    .audio-visualizer-wrapper {
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 1.5rem; gap: 0.8rem;
+    }
+    .audio-visualizer {
+      display: flex; align-items: flex-end; gap: 4px; height: 48px;
+      padding: 0 8px;
+    }
+    .audio-bar {
+      width: 4px; border-radius: 2px;
+      background: linear-gradient(to top, var(--amarelo), var(--amarelo-claro));
+      animation: audioPulse var(--dur, 1s) ease-in-out infinite alternate;
+      opacity: 0.85;
+    }
+    @keyframes audioPulse {
+      0%   { height: var(--min-h, 6px); opacity: 0.5; }
+      100% { height: var(--max-h, 36px); opacity: 1; }
+    }
+    .visualizer-label {
+      font-family: 'Cormorant Garamond', serif; font-size: 0.85rem;
+      font-style: italic; color: var(--texto-suave); letter-spacing: 0.1em;
+    }
+
+    /* ── VÍDEO ── */
+    .video-section { background: linear-gradient(135deg, rgba(74,123,167,0.08), rgba(212,160,23,0.08)); border: 1px solid rgba(212,160,23,0.2); border-radius: 1.5rem; padding: 3rem 2rem; text-align: center; }
+    .video-section h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 300; font-style: italic; color: var(--texto); margin-bottom: 1.5rem; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 1rem; overflow: hidden; background: var(--creme-escuro); margin-bottom: 2rem; }
+    .video-wrapper video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .question-prompt { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-style: italic; color: var(--ocre-escuro); margin-bottom: 1.5rem; }
+    .radio-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .radio-btn { position: relative; }
+    .radio-btn input { position: absolute; opacity: 0; width: 0; }
+    .radio-btn label { display: block; cursor: pointer; padding: 0.75rem 2rem; border: 1px solid var(--amarelo); border-radius: 2rem; font-size: 0.9rem; letter-spacing: 0.1em; color: var(--ocre-escuro); transition: all 0.3s ease; background: transparent; }
+    .radio-btn input:checked + label, .radio-btn label:hover { background: var(--amarelo); color: var(--texto); box-shadow: 0 4px 20px rgba(212,160,23,0.3); }
+    .answer-msg { margin-top: 1.5rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--ocre); min-height: 2rem; transition: opacity 0.5s ease; }
+
+    /* ── QUIZ ── */
+    .quiz-container { margin-top: 3rem; }
+    .quiz-card { background: rgba(250,243,224,0.6); border: 1px solid rgba(212,160,23,0.2); border-radius: 1.2rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 24px rgba(193,123,42,0.06); opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    body.dark-mode .quiz-card { background: rgba(36,26,10,0.7); }
+    .quiz-card.visible { opacity: 1; transform: translateY(0); }
+    .quiz-question { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--texto); margin-bottom: 1.2rem; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .quiz-option { cursor: pointer; padding: 0.7rem 1rem; border: 1px solid rgba(212,160,23,0.3); border-radius: 0.6rem; font-size: 0.85rem; color: var(--texto-suave); background: var(--creme); transition: all 0.25s ease; text-align: left; }
+    .quiz-option:hover { background: var(--amarelo-palido); border-color: var(--amarelo); }
+    .quiz-option.correct { background: rgba(107,140,90,0.15); border-color: var(--verde); color: var(--verde-escuro); }
+    .quiz-option.wrong { background: rgba(193,123,42,0.12); border-color: var(--ocre); color: var(--ocre-escuro); }
+    .quiz-option.disabled { cursor: not-allowed; }
+    .quiz-feedback { margin-top: 0.8rem; font-size: 0.85rem; font-style: italic; color: var(--texto-suave); min-height: 1.2rem; }
+    .quiz-score { text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(212,160,23,0.1), rgba(74,123,167,0.1)); border-radius: 1rem; margin-top: 1rem; }
+    .quiz-score p { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; color: var(--ocre-escuro); }
+    .quiz-score span { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+
+    /* ══ ADIVINHE A FOTO ══ */
+    .guess-photo-wrapper {
+      margin-top: 2.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+    }
+    .guess-photo-container {
+      position: relative; width: 100%; max-width: 480px;
+      border-radius: 1.2rem; overflow: hidden;
+      border: 1px solid rgba(212,160,23,0.3);
+      box-shadow: 0 8px 40px rgba(193,123,42,0.15);
+      cursor: pointer;
+    }
+    .guess-photo-container img {
+      width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover;
+      transition: filter 1.2s ease;
+    }
+    .guess-photo-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.8rem;
+      background: rgba(0,0,0,0.2); transition: opacity 0.5s;
+    }
+    .guess-blur-level { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: rgba(245,223,160,0.9); }
+    .guess-hint-btn {
+      padding: 0.5rem 1.4rem; border: 1px solid rgba(212,160,23,0.8);
+      border-radius: 2rem; background: rgba(212,160,23,0.2);
+      color: var(--amarelo-claro); font-family: 'Jost', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.1em; cursor: pointer;
+      backdrop-filter: blur(4px); transition: all 0.3s;
+    }
+    .guess-hint-btn:hover { background: rgba(212,160,23,0.4); }
+    .guess-hearts { display: flex; gap: 0.4rem; font-size: 1.4rem; }
+    .guess-input-row { display: flex; gap: 0.6rem; width: 100%; max-width: 480px; }
+    .guess-input {
+      flex: 1; padding: 0.8rem 1.2rem; border-radius: 2rem;
+      border: 1.5px solid rgba(212,160,23,0.4); background: rgba(250,243,224,0.8);
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+      color: var(--texto); outline: none;
+    }
+    body.dark-mode .guess-input { background: rgba(36,26,10,0.8); color: var(--amarelo-claro); }
+    .guess-submit {
+      padding: 0.8rem 1.4rem; border-radius: 2rem; border: 1px solid var(--amarelo);
+      background: var(--amarelo); color: var(--texto);
+      font-family: 'Jost', sans-serif; font-size: 0.85rem; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .guess-submit:hover { transform: scale(1.04); }
+    .guess-feedback { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: var(--ocre); min-height: 1.5rem; text-align: center; }
+    .guess-nav { display: flex; gap: 1rem; align-items: center; }
+    .guess-nav-btn { padding: 0.5rem 1.2rem; border-radius: 2rem; border: 1px solid rgba(212,160,23,0.4); background: transparent; color: var(--ocre-escuro); font-family: 'Jost', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; }
+    .guess-nav-btn:hover { background: var(--amarelo-palido); }
+    .guess-counter { font-size: 0.75rem; color: var(--texto-suave); letter-spacing: 0.1em; }
+
+    /* ── MAPA ── */
+    #mapa-lugares { height: 460px; border-radius: 1.2rem; overflow: hidden; border: 1px solid rgba(212,160,23,0.3); margin-top: 2rem; box-shadow: 0 8px 40px rgba(193,123,42,0.1); }
+    .leaflet-popup-content-wrapper { border-radius: 0.8rem !important; font-family: 'Jost', sans-serif !important; background: var(--creme) !important; color: var(--texto) !important; border: 1px solid rgba(212,160,23,0.3) !important; box-shadow: 0 4px 20px rgba(193,123,42,0.15) !important; }
+    .leaflet-popup-tip { background: var(--creme) !important; }
+    .popup-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--ocre-escuro); font-weight: 400; }
+    .popup-desc { font-size: 0.8rem; color: var(--texto-suave); margin-top: 0.2rem; }
+
+    /* ── FOTOS / LIGHTBOX ── */
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; margin-top: 2.5rem; }
+    .photo-placeholder {
+      aspect-ratio: 3/4; border-radius: 1rem;
+      background: linear-gradient(135deg, var(--amarelo-palido), var(--creme-escuro));
+      border: 1px solid rgba(212,160,23,0.25);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem; color: var(--ocre); font-size: 0.75rem; letter-spacing: 0.1em;
+      text-transform: uppercase; overflow: hidden; position: relative; cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+      transform-origin: center bottom;
+      opacity: 0; transform: translateY(30px) rotate(0deg);
+    }
+    .photo-placeholder:nth-child(3n+1) { transform: rotate(-1.5deg); }
+    .photo-placeholder:nth-child(3n+2) { transform: rotate(0.8deg); }
+    .photo-placeholder:nth-child(3n+3) { transform: rotate(-0.5deg); }
+    .photo-placeholder:hover { transform: rotate(0deg) scale(1.05) translateY(-6px) !important; box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 0 6px rgba(212,160,23,0.15); z-index: 2; }
+    .photo-placeholder img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 1rem; transition: transform 0.4s ease; }
+    .photo-placeholder.photo-visible { animation: photoReveal 0.6s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+    @keyframes photoReveal { from { opacity: 0; transform: translateY(30px) rotate(0deg); } to { opacity: 1; } }
+    .photo-placeholder.photo-done:nth-child(3n+1) { transform: rotate(-1.5deg); }
+    .photo-placeholder.photo-done:nth-child(3n+2) { transform: rotate(0.8deg); }
+    .photo-placeholder.photo-done:nth-child(3n+3) { transform: rotate(-0.5deg); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox { position: fixed; inset: 0; z-index: 9000; background: rgba(26,18,8,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; display: flex; align-items: center; gap: 1.5rem; }
+    .lightbox img { max-width: 80vw; max-height: 85vh; object-fit: contain; border-radius: 0.8rem; box-shadow: 0 30px 80px rgba(0,0,0,0.6); transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1); }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-btn { background: rgba(212,160,23,0.2); border: 1px solid rgba(212,160,23,0.5); color: var(--amarelo-claro); width: 48px; height: 48px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+    .lightbox-btn:hover { background: rgba(212,160,23,0.4); transform: scale(1.1); }
+    .lightbox-close { position: absolute; top: -3rem; right: 0; background: transparent; border: none; color: var(--amarelo-claro); font-size: 1.8rem; cursor: pointer; line-height: 1; transition: transform 0.3s ease; }
+    .lightbox-close:hover { transform: rotate(90deg) scale(1.2); }
+    .lightbox-counter { position: absolute; bottom: -2.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; letter-spacing: 0.2em; color: rgba(245,223,160,0.5); }
+
+    /* ══ NUVEM DE PALAVRAS ══ */
+    .wordcloud-wrapper {
+      position: relative; width: 100%; height: 320px;
+      margin-top: 2rem; border-radius: 1.2rem; overflow: hidden;
+    }
+    .wordcloud-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(212,160,23,0.08) 0%, transparent 70%);
+    }
+    .word-item {
+      position: absolute; font-family: 'Cormorant Garamond', serif;
+      font-weight: 400; color: var(--ocre);
+      animation: wordFloat var(--dur, 6s) ease-in-out infinite alternate;
+      cursor: default; user-select: none; white-space: nowrap;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .word-item:hover { color: var(--amarelo); transform: scale(1.15) !important; }
+    @keyframes wordFloat {
+      0%   { transform: translate(0, 0) rotate(var(--rot, 0deg)); }
+      100% { transform: translate(var(--mx, 8px), var(--my, -10px)) rotate(var(--rot, 0deg)); }
+    }
+
+    /* ══ FILMES & SÉRIES ══ */
+    .movies-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.2rem; margin-top: 2.5rem;
+    }
+    .movie-card {
+      border-radius: 1rem; overflow: hidden; position: relative;
+      border: 1px solid rgba(212,160,23,0.2);
+      background: var(--creme-escuro);
+      cursor: pointer; opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+    }
+    .movie-card.visible { opacity: 1; transform: translateY(0); }
+    .movie-card:hover { box-shadow: 0 16px 50px rgba(193,123,42,0.25); transform: translateY(-6px) scale(1.02) !important; }
+    .movie-poster {
+      width: 100%; aspect-ratio: 2/3; object-fit: cover;
+      display: block; transition: filter 0.4s;
+    }
+    .movie-card:hover .movie-poster { filter: brightness(0.7); }
+    .movie-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1rem 0.8rem 0.8rem;
+      background: linear-gradient(to top, rgba(26,18,8,0.95) 0%, transparent 100%);
+      transform: translateY(4px); transition: transform 0.3s ease;
+    }
+    .movie-card:hover .movie-info { transform: translateY(0); }
+    .movie-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--amarelo-claro); font-weight: 400; }
+    .movie-phrase { font-size: 0.72rem; color: rgba(245,223,160,0.65); margin-top: 0.3rem; line-height: 1.4; font-style: italic; }
+    .movie-emoji { font-size: 1.1rem; }
+    /* Poster placeholder quando não tem imagem */
+    .movie-poster-placeholder {
+      width: 100%; aspect-ratio: 2/3;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, var(--azul-escuro), var(--marrom));
+    }
+
+    /* ══ ENVELOPE / DECLARAÇÃO ══ */
+    .envelope-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 2rem; }
+    .envelope { width: 220px; height: 150px; position: relative; cursor: pointer; transition: transform 0.3s ease; }
+    .envelope:hover { transform: scale(1.04); }
+    .envelope svg { width: 100%; height: 100%; }
+    .envelope-hint { margin-top: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--texto-suave); letter-spacing: 0.05em; }
+    .declaracao-card { position: relative; background: linear-gradient(135deg, var(--azul-escuro), var(--marrom)); border-radius: 1.5rem; padding: 3.5rem 3rem; color: var(--amarelo-palido); overflow: hidden; max-height: 0; opacity: 0; transition: max-height 1.2s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease, padding 0.8s ease, margin 0.8s ease; margin-top: 0; }
+    .declaracao-card.open { max-height: 900px; opacity: 1; margin-top: 2rem; }
+    .declaracao-card::before { content: '"'; position: absolute; top: -1rem; left: 1.5rem; font-family: 'Cormorant Garamond', serif; font-size: 12rem; line-height: 1; color: rgba(245,223,160,0.08); pointer-events: none; }
+    .declaracao-card p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.05rem, 2.5vw, 1.25rem); line-height: 1.9; font-weight: 300; position: relative; z-index: 1; }
+    .declaracao-card p + p { margin-top: 1.2rem; }
+    .declaracao-card .assinatura { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(245,223,160,0.2); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(245,223,160,0.6); }
+
+    /* ══ ENVELOPE FUTURO ══ */
+    .futuro-section {
+      background: linear-gradient(135deg, rgba(44,80,112,0.12), rgba(122,78,45,0.12));
+      border: 1px solid rgba(74,123,167,0.25);
+      border-radius: 1.5rem; padding: 3rem 2rem; text-align: center; margin-top: 2rem;
+    }
+    .futuro-section h3 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem,3vw,2rem); font-weight: 300; color: var(--texto); margin-bottom: 0.5rem; }
+    .futuro-section h3 em { color: var(--azul); font-style: italic; }
+    .futuro-section p { font-size: 0.9rem; color: var(--texto-suave); margin-bottom: 2rem; font-style: italic; }
+    .futuro-lock { font-size: 3rem; margin-bottom: 1rem; display: block; animation: lockPulse 3s ease-in-out infinite; }
+    @keyframes lockPulse { 0%,100%{transform:scale(1) rotate(-2deg)} 50%{transform:scale(1.08) rotate(2deg)} }
+    .futuro-password-form { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+    .futuro-input {
+      padding: 0.8rem 1.4rem; border-radius: 2rem;
+      border: 1.5px solid rgba(74,123,167,0.4);
+      background: rgba(250,243,224,0.8);
+      font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+      text-align: center; color: var(--texto); outline: none; width: 240px; letter-spacing: 0.2em;
+    }
+    body.dark-mode .futuro-input { background: rgba(36,26,10,0.8); color: var(--amarelo-claro); }
+    .futuro-btn { padding: 0.75rem 2rem; border-radius: 2rem; border: 1px solid var(--azul); background: var(--azul); color: white; font-family: 'Jost', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s; }
+    .futuro-btn:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(74,123,167,0.3); }
+    .futuro-erro { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: var(--ocre); min-height: 1.2rem; }
+    .futuro-carta { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 1.2s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease; }
+    .futuro-carta.open { max-height: 800px; opacity: 1; margin-top: 1.5rem; }
+    .futuro-carta-inner { background: linear-gradient(135deg, #1e3a52, #2c5070); border-radius: 1.2rem; padding: 2.5rem 2rem; color: #FAF3E0; position: relative; }
+    .futuro-carta-inner::before { content: '✉'; position: absolute; top: -1rem; right: 1.5rem; font-size: 8rem; opacity: 0.05; pointer-events: none; }
+    .futuro-carta-inner p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem,2.5vw,1.15rem); line-height: 1.9; font-weight: 300; position: relative; z-index: 1; color: #ffffff; }
+    .futuro-carta-inner p + p { margin-top: 1rem; }
+    .futuro-assinatura { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(245,223,160,0.15); font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(245,223,160,0.5); }
+
+    /* ── FOOTER ── */
+    footer { text-align: center; padding: 4rem 1.5rem; border-top: 1px solid rgba(212,160,23,0.2); }
+    footer .footer-heart { font-size: 1.5rem; color: var(--ocre); animation: heartbeat 1.5s ease-in-out infinite; display: block; margin-bottom: 1rem; }
+    footer p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--texto-suave); font-weight: 300; }
+    footer .footer-names { font-size: 1.4rem; color: var(--ocre-escuro); font-style: normal; font-weight: 400; margin-top: 0.5rem; }
+    .share-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; padding: 0.75rem 1.8rem; background: #25D366; color: white; border: none; border-radius: 2rem; font-family: 'Jost', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+    .share-btn:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(37,211,102,0.4); }
+
+    /* ── PETAL ── */
+    .petal { position: fixed; pointer-events: none; z-index: 0; opacity: 0; font-size: 1rem; animation: petalFall linear infinite; }
+
+    /* ══ PARTÍCULAS DE SEÇÃO ══ */
+    .section-particle {
+      position: fixed; pointer-events: none; z-index: 50;
+      font-size: 1.4rem; opacity: 0;
+      animation: sectionParticle 1.6s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    @keyframes sectionParticle {
+      0%   { opacity: 0; transform: scale(0.3) translateY(0) rotate(0deg); }
+      20%  { opacity: 1; transform: scale(1.2) translateY(-30px) rotate(15deg); }
+      60%  { opacity: 0.8; transform: scale(1) translateY(-90px) rotate(-10deg); }
+      100% { opacity: 0; transform: scale(0.6) translateY(-160px) rotate(25deg); }
+    }
+
+    /* ── ANIMAÇÕES ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+    @keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+    @keyframes petalFall { 0%{opacity:0;transform:translateY(-20px) rotate(0deg)} 10%{opacity:0.6} 90%{opacity:0.4} 100%{opacity:0;transform:translateY(100vh) rotate(360deg)} }
+    @keyframes pulseHeart { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    .filtro-btn { padding:0.4rem 1rem; border-radius:2rem; border:1px solid rgba(212,160,23,0.4); background:transparent; color:var(--texto-suave); font-family:'Jost',sans-serif; font-size:0.8rem; cursor:pointer; transition:all 0.25s ease; }
+.filtro-btn.filtro-ativo, .filtro-btn:hover { background:var(--amarelo); color:var(--texto); border-color:var(--amarelo); }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 640px) {
+      .sobre-grid { grid-template-columns: 1fr; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .declaracao-card { padding: 2.5rem 1.5rem; }
+      .declaracao-card::before { font-size: 8rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .contador-grid { gap: 0.4rem; }
+      .contador-item { min-width: 60px; padding: 0.5rem 0.6rem; }
+      .lightbox-inner { gap: 0.5rem; }
+      .lightbox-btn { width: 36px; height: 36px; font-size: 1.1rem; }
+      .movies-grid { grid-template-columns: repeat(2, 1fr); }
+      .wordcloud-wrapper { height: 260px; }
+      .guess-input-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ DARK MODE TOGGLE ══ -->
+<button class="dark-toggle" id="darkToggle" onclick="toggleDark()" aria-label="Alternar modo noturno">
+  <span id="darkIcon">🌙</span> <span id="darkLabel">Modo noturno</span>
+</button>
+
+<!-- ══ LIGHTBOX ══ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-inner">
+    <button class="lightbox-btn" id="lbPrev" aria-label="Foto anterior">&#8592;</button>
+    <div style="position:relative;">
+      <button class="lightbox-close" id="lbClose" aria-label="Fechar">&#x2715;</button>
+      <img id="lbImg" src="" alt="Foto do casal">
+      <div class="lightbox-counter" id="lbCounter"></div>
+    </div>
+    <button class="lightbox-btn" id="lbNext" aria-label="Próxima foto">&#8594;</button>
+  </div>
+</div>
+
+<!-- ══ OVERLAY DE ENTRADA ══ -->
+<div id="entryOverlay" style="position:fixed;inset:0;z-index:9999;background:#FAF3E0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity 0.8s ease;">
+  <div style="position:absolute;top:-2rem;left:-2rem;font-size:12rem;opacity:0.05;transform:rotate(-20deg);pointer-events:none;user-select:none;">🌻</div>
+  <div style="position:absolute;bottom:-2rem;right:-2rem;font-size:12rem;opacity:0.05;transform:rotate(15deg);pointer-events:none;user-select:none;">🌻</div>
+  <div id="telaQuem" style="max-width:480px;width:100%;">
+    <div style="font-size:3.5rem;margin-bottom:1.5rem;animation:pulseHeart 1.8s ease-in-out infinite;">🌻</div>
+    <p style="font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:#C17B2A;margin-bottom:1rem;">Bem-vindo(a)</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,5vw,2.4rem);font-weight:300;line-height:1.3;color:#3A2A1A;margin-bottom:0.75rem;">Quem chegou até aqui?</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#6B5040;margin-bottom:2.5rem;">Este site foi feito com amor — mas é aberto a todos. 💛</p>
+    <div style="display:flex;flex-direction:column;gap:0.9rem;align-items:center;">
+      <button onclick="mostrarDesafio()" style="width:260px;font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.85rem 2rem;border-radius:2rem;cursor:pointer;border:1px solid #D4A017;background:#D4A017;color:#3A2A1A;transition:all 0.3s;">Sou a Nicoly 💛</button>
+      <button onclick="fecharOverlay()" style="width:260px;font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.85rem 2rem;border-radius:2rem;cursor:pointer;border:1px solid #C17B2A;background:transparent;color:#C17B2A;transition:all 0.3s;">Sou recrutador(a) 💼</button>
+      <button onclick="fecharOverlay()" style="width:260px;font-family:'Jost',sans-serif;font-size:0.85rem;letter-spacing:0.08em;padding:0.75rem 2rem;border-radius:2rem;cursor:pointer;border:1px solid rgba(193,123,42,0.35);background:transparent;color:#8B7060;transition:all 0.3s;">Só curioso(a) 👀</button>
+    </div>
+  </div>
+  <div id="telaDesafio" style="display:none;max-width:500px;width:100%;">
+    <div style="font-size:2.5rem;margin-bottom:1.2rem;">💌</div>
+    <p style="font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:#C17B2A;margin-bottom:1rem;">Complete a frase</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,4vw,1.7rem);font-weight:300;line-height:1.5;color:#3A2A1A;margin-bottom:0.5rem;">"Eu te amarei no começo,<br>no meio e até o..."</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-style:italic;color:#6B5040;margin-bottom:1.8rem;">uma palavra só, sem acento</p>
+    <div style="max-width:300px;margin:0 auto 1rem;">
+      <input id="respostaInput" type="text" placeholder="sua resposta..." autocomplete="off" autocorrect="off" spellcheck="false"
+        style="width:100%;padding:0.9rem 1.2rem;border-radius:2rem;border:1.5px solid #D4A017;background:rgba(250,243,224,0.8);font-family:'Cormorant Garamond',serif;font-size:1.2rem;text-align:center;color:#3A2A1A;outline:none;letter-spacing:0.05em;"
+        onkeydown="if(event.key==='Enter')verificar()">
+    </div>
+    <button onclick="verificar()" style="font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.8rem 2.2rem;border-radius:2rem;cursor:pointer;border:1px solid #D4A017;background:#D4A017;color:#3A2A1A;margin-bottom:1rem;">Abrir a carta 💛</button>
+    <div id="erroMsg" style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#C17B2A;min-height:1.4rem;margin-top:0.5rem;opacity:0;transition:opacity 0.4s;"></div>
+    <br>
+    <button onclick="trocarTela('telaQuem')" style="font-family:'Jost',sans-serif;font-size:0.75rem;letter-spacing:0.1em;padding:0.5rem 1.2rem;border-radius:2rem;cursor:pointer;border:none;background:transparent;color:#8B7060;text-decoration:underline;">← Voltar</button>
+  </div>
+  <div id="telaMusica" style="display:none;max-width:460px;width:100%;">
+    <div style="font-size:3rem;margin-bottom:1.2rem;animation:pulseHeart 1.8s ease-in-out infinite;">🌻</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,5vw,2.2rem);font-weight:300;line-height:1.3;color:#3A2A1A;margin-bottom:0.75rem;">Eu sabia que era você,<br><em style="color:#C17B2A;font-style:italic;">meu amor.</em></p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <button onclick="entrarComMusica()" style="width:260px;font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.85rem 2rem;border-radius:2rem;cursor:pointer;border:1px solid #D4A017;background:#D4A017;color:#3A2A1A;transition:all 0.3s;">Entrar no site!</button>
+</div>
+  </div>
+</div>
+
+<div class="sunflower-deco top-left" id="sfLeft">🌻</div>
+<div class="sunflower-deco bot-right" id="sfRight">🌻</div>
+
+<!-- ══ HERO COM KEN BURNS ══ -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <h1>Para o amor<br>da <em>minha vida</em></h1>
+  <p class="hero-sub">José Henrique &amp; Nicoly Arruda &nbsp;·&nbsp; Comemorando nosso quinto ano de dia dos namorados</p>
+  <div class="contador-wrapper">
+    <p style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--texto-suave);margin-bottom:0.5rem;">Juntos há exatamente</p>
+    <div class="contador-grid">
+      <div class="contador-item"><span class="contador-num" id="cnt-anos">0</span><span class="contador-label">Anos</span></div>
+      <div class="contador-item"><span class="contador-num" id="cnt-meses">0</span><span class="contador-label">Meses</span></div>
+      <div class="contador-item"><span class="contador-num" id="cnt-dias">0</span><span class="contador-label">Dias</span></div>
+      <div class="contador-item"><span class="contador-num" id="cnt-horas">0</span><span class="contador-label">Horas</span></div>
+      <div class="contador-item"><span class="contador-num" id="cnt-min">0</span><span class="contador-label">Min</span></div>
+      <div class="contador-item"><span class="contador-num" id="cnt-seg">0</span><span class="contador-label">Seg</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>role</span>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<div class="wrapper">
+  <section style="padding-top:1rem;">
+    <div class="stats-grid fade-in">
+      <div class="stat-card">
+        <span class="stat-icon">📅</span>
+        <span class="stat-number"><span class="stat-num-animated" data-target="1826">0</span></span>
+        <span class="stat-label">Dias juntos</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🌅</span>
+        <span class="stat-number"><span class="stat-num-animated" data-target="5">0</span></span>
+        <span class="stat-label">Aniversários</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🗺️</span>
+        <span class="stat-number"><span class="stat-num-animated" data-target="30">0</span>+</span>
+        <span class="stat-label">Lugares especiais</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">💛</span>
+        <span class="stat-number">∞</span>
+        <span class="stat-label">Amor</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌻</span></div>
+
+  <!-- ══ SOBRE NÓS ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo I</p>
+      <h2 class="section-title">Sobre <em>nós</em></h2>
+      <p class="body-text">Já fazem 5 anos juntos e eu sempre irei escolher você todo os dias. Nossa história é cheia de dias incríveis, risadas sinceras e um amor que só cresce mais e mais.</p>
+      <p class="body-text">Juntos aprendermos o real significado de parceria. Passamos por fases que todos os casais que se ama passam, mas cada desafio só deixou nosso relacionamento mais forte. Ver todas as nossas conquitas só me dá a certeza que irei me casar com você!</p>
+    </div>
+    <div class="sobre-grid fade-in" style="transition-delay:0.15s">
+      <div class="sobre-card"><div class="sobre-card-icon">🌻</div><h3>Como nos conhecemos</h3><p>Nos conhecemos na escola, ainda sem imaginar que aquele encontro se tornaria o início de algo tão bonito e verdadeiro.</p></div>
+      <div class="sobre-card"><div class="sobre-card-icon">✨</div><h3>O que somos</h3><p>Um casal que cresceu junto, enfrentou tudo junto e descobriu que o destino realmente quis que fosse a gente.</p></div>
+      <div class="sobre-card"><div class="sobre-card-icon">🎵</div><h3>Nossa trilha sonora</h3><p>Beginning Middle End — a música que traduz o que queremos: te amar no começo, no meio e até o fim.</p></div>
+      <div class="sobre-card"><div class="sobre-card-icon">🌊</div><h3>Nosso segredo</h3><p>Amor, paciência e a certeza de que mesmo nas tempestades, voltamos sempre um para o outro.</p></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌸</span></div>
+
+  <!-- ══ NOSSA HISTÓRIA ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo II</p>
+      <h2 class="section-title">Nossa <em>história</em></h2>
+      <p class="body-text">Há cinco anos, eu conheci uma pessoa que mudou completamente a minha vida.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-year">O começo</p><p class="timeline-text">Nos conhecemos na escola, ainda sem imaginar que aquele encontro se tornaria o início de algo tão bonito e verdadeiro. Risadas, conversas, o olhar que dizia mais do que as palavras.</p></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background: var(--azul)"></div><p class="timeline-year">Os desafios</p><p class="timeline-text">Tivemos brigas, sim, mas nada foi capaz de abalar o que sentimos um pelo outro. Cada desafio só serviu para fortalecer ainda mais o nosso amor.</p></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background: var(--verde)"></div><p class="timeline-year">O crescimento</p><p class="timeline-text">Cada reencontro mostrou que o destino realmente quis que fosse a gente. Crescemos juntos, aprendemos juntos, nos tornamos versões melhores de nós mesmos.</p></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background: var(--ocre)"></div><p class="timeline-year">Hoje e sempre</p><p class="timeline-text">Ao olhar pra frente, vejo o quanto ainda quero viver ao seu lado escrevendo novos capítulos, colecionando memórias e fazendo de cada dia mais um motivo pra sorrir.</p></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌻</span></div>
+
+  <!-- ══ VÍDEO + VISUALIZADOR ══ -->
+  <section>
+    <div class="fade-in">
+      <div class="video-section">
+        <h2>Você irá me amar no começo, meio e fim?</h2>
+        <!-- Visualizador animado -->
+        <div class="audio-visualizer-wrapper" id="vizWrapper">
+          <div class="audio-visualizer" id="audioViz"></div>
+          <span class="visualizer-label">🎵 Beginning Middle End — Leah Nobel</span>
+        </div>
+        <div class="video-wrapper">
+          <video id="mainVideo" controls autoplay muted playsinline preload="auto">
+            <source src="Leah Nobel - Beginning Middle End (tradução_legendado) _ Lara & Peter.mp4" type="video/mp4">
+            <p>Seu navegador não suporta o elemento video.</p>
+          </video>
+        </div>
+        <p class="question-prompt">E aí amor, qual é a sua resposta?</p>
+        <div class="radio-group">
+          <div class="radio-btn"><input type="radio" id="resp-sim" name="resposta" value="sim"><label for="resp-sim">Sim, para sempre! 💛</label></div>
+          <div class="radio-btn"><input type="radio" id="resp-nao" name="resposta" value="nao"><label for="resp-nao">Não...</label></div>
+        </div>
+        <div class="answer-msg" id="answerMsg"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌸</span></div>
+
+  <!-- ══ NUVEM DE PALAVRAS ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo III</p>
+      <h2 class="section-title">Se eu fosse te descrever em <em>palavras...</em></h2>
+      <p class="body-text">Cada palavra que me vem quando penso em você. Todas ao mesmo tempo. 💛</p>
+    </div>
+    <div class="wordcloud-wrapper fade-in" style="transition-delay:0.15s" id="wordcloud">
+      <div class="wordcloud-bg"></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌻</span></div>
+
+  <!-- ══ QUIZ DO CASAL ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo IV</p>
+      <h2 class="section-title">Quiz do <em>casal</em></h2>
+      <p class="body-text">Quantas perguntas será que você acerta? Tenta aí e vamos ver se me ama mesmo... haha! 💛</p>
+    </div>
+    <div class="quiz-container" id="quizContainer"></div>
+    <div class="quiz-score" id="quizScore" style="display:none"><span id="quizEmoji">🌻</span><p id="quizScoreText"></p></div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌸</span></div>
+
+  <!-- ══ ADIVINHE A FOTO ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo V</p>
+      <h2 class="section-title">Adivinhe a <em>foto</em></h2>
+      <p class="body-text">Cada foto vai revelando aos poucos... você consegue adivinhar onde foi tirada? 🌻</p>
+    </div>
+    <div class="guess-photo-wrapper fade-in" style="transition-delay:0.1s">
+      <div class="guess-hearts" id="guessHearts"></div>
+      <div class="guess-photo-container" id="guessContainer">
+        <img id="guessImg" src="" alt="Foto misteriosa">
+        <div class="guess-photo-overlay" id="guessOverlay">
+          <span class="guess-blur-level" id="guessBlurLabel">Nível 1 — muito desfocada 🌫️</span>
+          <button class="guess-hint-btn" onclick="revealMore()">Revelar um pouco mais 👁️</button>
+        </div>
+      </div>
+      <div class="guess-input-row">
+        <input class="guess-input" id="guessInput" type="text" placeholder="Onde foi essa foto?" autocomplete="off" onkeydown="if(event.key==='Enter')checkGuess()">
+        <button class="guess-submit" onclick="checkGuess()">Responder 💛</button>
+      </div>
+      <div class="guess-feedback" id="guessFeedback"></div>
+      <div class="guess-nav">
+        <button class="guess-nav-btn" onclick="prevGuess()">← Anterior</button>
+        <span class="guess-counter" id="guessCounter">1 / 5</span>
+        <button class="guess-nav-btn" onclick="nextGuess()">Próxima →</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌻</span></div>
+
+  <!-- ══ MAPA DOS NOSSOS LUGARES ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo VI</p>
+      <h2 class="section-title">Nossos <em>lugares</em></h2>
+      <p class="body-text">Cada ponto no mapa guarda uma história nossa — cada encontro, cada aventura, cada momento que se tornou memória. 🗺️</p>
+    </div>
+    <div id="mapa-lugares" class="fade-in" style="transition-delay:0.2s;"></div>
+    <div class="fade-in" style="transition-delay:0.3s; margin-top: 2rem;">
+      <p style="font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--azul);font-weight:500;margin-bottom:1rem;">E também estivemos em...</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+        <span style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.3);border-radius:2rem;padding:0.4rem 1rem;font-size:0.82rem;color:var(--texto-suave);">☕ Diversas cafeterias por SP</span>
+        <span style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.3);border-radius:2rem;padding:0.4rem 1rem;font-size:0.82rem;color:var(--texto-suave);">🍕 Várias pizzarias juntos</span>
+        <span style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.3);border-radius:2rem;padding:0.4rem 1rem;font-size:0.82rem;color:var(--texto-suave);">💒 Casamentos de amigos e família</span>
+        <span style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.3);border-radius:2rem;padding:0.4rem 1rem;font-size:0.82rem;color:var(--texto-suave);">✨ ...e muitos outros lugares ainda para descobrir</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌸</span></div>
+
+  <!-- ══ SPOTIFY WRAPPED ══ -->
+<div class="divider"><span class="divider-icon">🎵</span></div>
+<section>
+  <div class="fade-in">
+    <p class="section-label">Especial</p>
+    <h2 class="section-title">Nossa <em>retrospectiva</em></h2>
+    <p class="body-text">Se o Spotify fizesse um Wrapped só nosso, seria assim. 🎵</p>
+  </div>
+  <div class="fade-in" style="transition-delay:0.15s;margin-top:2rem;">
+    <div style="background:linear-gradient(135deg,#1DB954 0%,#191414 60%,#121212 100%); border-radius:1.5rem; padding:2.5rem 2rem; color:#fff; position:relative; overflow:hidden; max-width:100%; margin: 0 auto;">
+      <div style="position:absolute;top:-3rem;right:-3rem;font-size:10rem;opacity:0.07;pointer-events:none;">🎵</div>
+      <p style="font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.3rem;">Spotify Wrapped</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:#1DB954;margin-bottom:2rem;">José & Nicoly · 2021–2026</p>
+      <p style="font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;">🎤 Música tema</p>
+      <div style="display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,0.06);border-radius:0.8rem;padding:0.9rem 1rem;margin-bottom:1.5rem;">
+        <div style="width:48px;height:48px;border-radius:0.5rem;background:linear-gradient(135deg,#D4A017,#8B5A1A);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🌻</div>
+        <div><p style="font-size:0.95rem;font-weight:500;color:#fff;margin-bottom:0.2rem;">Beginning Middle End</p><p style="font-size:0.78rem;color:rgba(255,255,255,0.5);">Leah Nobel</p></div>
+        <div style="margin-left:auto;color:#1DB954;font-size:1.3rem;">▶</div>
+      </div>
+      <p style="font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;">🏆 Top 5 momentos</p>
+      <ol style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+        <li style="display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.04);border-radius:0.6rem;padding:0.6rem 0.8rem;"><span style="color:#1DB954;font-size:0.8rem;width:16px;">01</span><span style="font-size:0.88rem;color:rgba(255,255,255,0.85);">Viagem a Recife & Porto de Galinhas 🌊</span></li>
+        <li style="display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.04);border-radius:0.6rem;padding:0.6rem 0.8rem;"><span style="color:#1DB954;font-size:0.8rem;width:16px;">02</span><span style="font-size:0.88rem;color:rgba(255,255,255,0.85);">Show do Jão 🎤</span></li>
+        <li style="display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.04);border-radius:0.6rem;padding:0.6rem 0.8rem;"><span style="color:#1DB954;font-size:0.8rem;width:16px;">03</span><span style="font-size:0.88rem;color:rgba(255,255,255,0.85);">Holambra — a cidade dos girassóis 🌻</span></li>
+        <li style="display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.04);border-radius:0.6rem;padding:0.6rem 0.8rem;"><span style="color:#1DB954;font-size:0.8rem;width:16px;">04</span><span style="font-size:0.88rem;color:rgba(255,255,255,0.85);">Formatura da escola 🎓</span></li>
+        <li style="display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.04);border-radius:0.6rem;padding:0.6rem 0.8rem;"><span style="color:#1DB954;font-size:0.8rem;width:16px;">05</span><span style="font-size:0.88rem;color:rgba(255,255,255,0.85);">Roller Jam — patinando juntos ⛸️</span></li>
+      </ol>
+      <p style="margin-top:1.5rem;font-size:0.75rem;color:rgba(255,255,255,0.3);text-align:center;letter-spacing:0.1em;">5 anos · 1.826 dias · ∞ amor</p>
+    </div>
+  </div>
+</section>
+
+  <!-- ══ FILMES & SÉRIES ══ -->
+<section>
+  <div class="fade-in">
+    <p class="section-label">Capítulo VII</p>
+    <h2 class="section-title">Nossos filmes <em>&amp; séries</em></h2>
+    <p class="body-text">Cada série e filme que assistimos juntos — vá adicionando à nossa lista! 🍿</p>
+  </div>
+  <div class="fade-in" style="transition-delay:0.1s; margin-top: 2rem;">
+    <div style="display:flex; gap:0.6rem; max-width:500px;">
+      <input type="text" id="filmeInput" placeholder="Nome do filme ou série..." style="flex:1; padding:0.8rem 1.2rem; border-radius:2rem; border:1.5px solid rgba(212,160,23,0.4); background:rgba(250,243,224,0.8); font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--texto); outline:none;">
+      <button onclick="adicionarFilme()" style="padding:0.8rem 1.4rem; border-radius:2rem; border:1px solid var(--amarelo); background:var(--amarelo); color:var(--texto); font-family:'Jost',sans-serif; font-size:0.85rem; cursor:pointer; white-space:nowrap;">Adicionar 🎬</button>
+    </div>
+    <div id="filmesGrid" style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;"></div>
+  </div>
+</section>
+
+  <div class="divider"><span class="divider-icon">🌻</span></div>
+
+  <!-- ══ NOSSAS FOTOS ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo VIII</p>
+      <h2 class="section-title">Nossas <em>fotos</em></h2>
+      <p class="body-text">Nossas incriveis e engraçadas fotos que temos! Clique para ver de perto caso prefira. 💛</p>
+    </div>
+    <div class="photo-grid fade-in" style="transition-delay:0.15s;" id="photoGrid">
+      <div class="photo-placeholder" data-index="0" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.26 (1).jpeg" alt="Foto 1" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="1" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.26.jpeg" alt="Foto 2" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="2" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (1).jpeg" alt="Foto 3" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="3" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (2).jpeg" alt="Foto 4" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="4" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (3).jpeg" alt="Foto 5" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="5" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (4).jpeg" alt="Foto 6" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="6" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (5).jpeg" alt="Foto 7" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="7" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (6).jpeg" alt="Foto 8" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="8" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (7).jpeg" alt="Foto 9" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="9" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27 (8).jpeg" alt="Foto 10" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="10" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.27.jpeg" alt="Foto 11" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="11" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (1).jpeg" alt="Foto 12" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="12" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (2).jpeg" alt="Foto 13" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="13" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (3).jpeg" alt="Foto 14" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="14" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (4).jpeg" alt="Foto 15" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="15" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (5).jpeg" alt="Foto 16" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="16" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (6).jpeg" alt="Foto 17" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="17" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (7).jpeg" alt="Foto 18" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="18" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (8).jpeg" alt="Foto 19" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="19" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (9).jpeg" alt="Foto 20" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="20" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (10).jpeg" alt="Foto 21" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="21" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (11).jpeg" alt="Foto 22" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="22" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (12).jpeg" alt="Foto 23" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="23" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (13).jpeg" alt="Foto 24" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="24" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (14).jpeg" alt="Foto 25" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="25" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28 (15).jpeg" alt="Foto 26" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="26" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.10.28.jpeg" alt="Foto 27" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="27" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.15.04.jpeg" alt="Foto 28" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="28" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.15.07.jpeg" alt="Foto 29" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="29" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (1).jpeg" alt="Foto 30" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="30" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (2).jpeg" alt="Foto 31" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="31" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (3).jpeg" alt="Foto 32" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="32" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (4).jpeg" alt="Foto 33" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="33" data-tags="viagens"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (5).jpeg" alt="Foto 34" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="34" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (6).jpeg" alt="Foto 35" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="35" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (7).jpeg" alt="Foto 36" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="36" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (8).jpeg" alt="Foto 37" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="37" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (9).jpeg" alt="Foto 38" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="38" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (10).jpeg" alt="Foto 39" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="39" data-tags="aniversarios"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (11).jpeg" alt="Foto 40" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="40" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (12).jpeg" alt="Foto 41" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="41" data-tags="outros"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08 (13).jpeg" alt="Foto 42" loading="lazy"></div>
+      <div class="photo-placeholder" data-index="42" data-tags="sp"><img src="img/WhatsApp Image 2026-05-28 at 18.15.08.jpeg" alt="Foto 43" loading="lazy"></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌻</span></div>
+
+<div class="wrapper" style="max-width: 900px; margin: 0 auto; padding: 0 2rem;">
+    
+    <section id="muralSection" style="margin-top: 5rem; text-align: center; display: flex; flex-direction: column; align-items: center;">
+      <div class="fade-in">
+        <p class="section-label" style="text-align: center;">Interativo</p>
+        <h2 class="section-title" style="text-align: center;">Nosso mural de <em>recados</em></h2>
+        <p class="body-text" style="text-align: center; max-width: 600px; margin: 0 auto;"> Esta é uma parte de post-its, aonde você pode adicionar mensagens aqui sempre que quiser.💛</p>
+      </div>
+      
+      <div style="margin-top: 2rem; display: flex; gap: 0.6rem; width: 100%; max-width: 500px; justify-content: center;">
+        <input type="text" id="muralInput" placeholder="Escreva um recadinho rápido..." style="flex: 1; padding: 0.8rem 1.2rem; border-radius: 2rem; border: 1.5px solid rgba(212,160,23,0.4); background: rgba(250,243,224,0.8); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--texto); outline: none;">
+        <button onclick="enviarRecado()" style="padding: 0.8rem 1.4rem; border-radius: 2rem; border: 1px solid var(--amarelo); background: var(--amarelo); color: var(--texto); font-family: 'Jost', sans-serif; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; white-space: nowrap;">Fixar</button>
+      </div>
+
+      <div id="muralGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-top: 2.5rem; width: 100%; max-width: 700px;">
+        </div>
+    </section>
+
+    <div class="divider" style="margin: 4rem auto;"><span class="divider-icon">🌻</span></div>
+
+
+  </div>
+
+  <!-- ══ DECLARAÇÃO COM ENVELOPE ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo IX</p>
+      <h2 class="section-title">Minha <em>declaração</em></h2>
+    </div>
+    <div class="envelope-wrapper fade-in" style="transition-delay:0.1s">
+      <div class="envelope" id="envelope" onclick="abrirEnvelope()" role="button" aria-label="Abrir carta de amor" tabindex="0">
+        <svg viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="216" height="146" rx="8" ry="8" fill="#FAF3E0" stroke="#D4A017" stroke-width="1.5"/>
+          <path id="envFlap" d="M2,2 L110,80 L218,2 Z" fill="#F0E6C8" stroke="#D4A017" stroke-width="1" style="transform-origin:110px 2px;transition:transform 0.8s cubic-bezier(0.34,1.2,0.64,1);"/>
+          <path d="M2,148 L110,80 L218,148 Z" fill="#F5DFA0" stroke="#D4A017" stroke-width="1"/>
+          <path d="M2,2 L2,148 L110,80 Z" fill="#FBF3D5" stroke="#D4A017" stroke-width="0.5"/>
+          <path d="M218,2 L218,148 L110,80 Z" fill="#FBF3D5" stroke="#D4A017" stroke-width="0.5"/>
+          <text x="110" y="88" text-anchor="middle" font-size="18" id="heartSeal">💛</text>
+        </svg>
+      </div>
+      <p class="envelope-hint" id="envelopeHint">Toque para abrir sua carta 💌</p>
+    </div>
+    <div class="declaracao-card" id="declaracaoCard">
+      <p>Meu amor, obrigado por esse nosso quinto ano juntos! Espero de verdade que você tenha gostado do site que fiz para você. Me esforcei ao máximo para ficar perfeito, igualzinho às cartinhas e desenhos que você já fez para mim, mas sei que não chega nem perto, porque as suas ideias são incríveis e perfeitas!</p>
+      <p>Eu irei amar você para sempre, Nicoly Arruda Rodrigues, nunca se esqueça disso. Não vejo a hora de terminarmos nossas obrigações o mais rápido possível, estarmos juntos na nossa casinha e realizarmos os nossos sonhos e, claro, o nosso casamento, que eu anseio todos os dias.</p>
+      <p>Obrigado por tudo o que você faz por mim, meu solzinho que ilumina meu dia! Eu te amo!</p>
+      <p class="assinatura">Com todo amor · José Henrique 19 de maio de 2026</p>
+    </div>
+  </section>
+
+  <div class="divider"><span class="divider-icon">🌸</span></div>
+
+  <!-- ══ CARTA DO FUTURO ══ -->
+  <section>
+    <div class="fade-in">
+      <p class="section-label">Capítulo X</p>
+      <h2 class="section-title">Carta para o <em>futuro</em></h2>
+    </div>
+    <div class="futuro-section fade-in" style="transition-delay:0.1s">
+      <span class="futuro-lock">🔒</span>
+      <h3>Uma carta para abrirmos no nosso <em>10º aniversário</em></h3>
+      <p>Guardada com carinho até 21 de maio de 2031 — quando completarmos uma década juntos.</p>
+      <div id="futuroLocked">
+        <div class="futuro-password-form">
+          <input class="futuro-input" id="futuroInput" type="password" placeholder="••••••••" maxlength="20" onkeydown="if(event.key==='Enter')abrirFuturo()">
+          <button class="futuro-btn" onclick="abrirFuturo()">Abrir a carta 🔓</button>
+          <div class="futuro-erro" id="futuroErro"></div>
+        </div>
+      </div>
+      <div class="futuro-carta" id="futuroCarta">
+        <div class="futuro-carta-inner">
+          <p>Meu amor, se você está lendo isso depois de tantos anos juntos, é porque a gente superou cada desafio para chegar até aqui. Eu te amo mais que tudo no mundo!</p>
+          <p>Espero do fundo do coração que a faculdade já tenha ficado para trás e que a nossa casinha já seja real, para a gente viver bem grudadinho, igualzinho ao nosso sonho.</p>
+          <p>Espero que nessa data você ainda sorria do mesmo jeito que me apaixonou. Que a gente tenha crescido juntos, construído coisas bonitas, e que o amor que sinto hoje seja apenas o começo do que sentiremos daqui a dez, vinte, cinquenta anos.</p>
+          <p>Você é o meu solzinho que ilumina o meu dia.</p>
+          <p>Te amo ontem, hoje e sempre.</p>
+          <div class="futuro-assinatura">Escrita com amor em 19 de maio de 2026 · José Henrique</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <span class="footer-heart">🌻</span>
+  <p class="footer-names">José Henrique &amp; Nicoly</p>
+  <p>5 anos e contando... 💛</p>
+  <a class="share-btn" id="shareBtn" href="#" onclick="compartilhar(event)">
+    <span>💚</span> Compartilhar no WhatsApp
+  </a>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   OVERLAY
+══════════════════════════════════════════ */
+var erros = 0;
+var placar = { quiz: 0, fotos: 0, video: 0 };
+var placarSalvo = false;
+function trocarTela(id) {
+  ['telaQuem','telaDesafio','telaMusica'].forEach(function(t){
+    document.getElementById(t).style.display = t === id ? 'block' : 'none';
+  });
+}
+function mostrarDesafio() { trocarTela('telaDesafio'); }
+function normalizar(s) { return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function verificar() {
+  var resp = normalizar(document.getElementById('respostaInput').value);
+  if (['fim','final','sempre'].indexOf(resp) !== -1) {
+    trocarTela('telaMusica');
+  } else {
+    erros++;
+    var msg = document.getElementById('erroMsg');
+    var msgs = ['Hmm... tente de novo, meu amor 🌸','Quase lá... pensa com carinho 💛','Você sabe essa, eu sei que sabe 🌻'];
+    msg.textContent = msgs[Math.min(erros - 1, msgs.length - 1)];
+    msg.style.opacity = '1';
+    document.getElementById('respostaInput').value = '';
+    document.getElementById('respostaInput').focus();
+  }
+}
+function fecharOverlay() {
+  var o = document.getElementById('entryOverlay');
+  o.style.opacity = '0';
+  setTimeout(function(){ o.style.display = 'none'; }, 800);
+}
+function entrarComMusica() {
+  var vid = document.getElementById('mainVideo');
+  if (vid) { vid.muted = false; vid.play().catch(function(){ vid.muted = true; vid.play(); }); }
+  fecharOverlay();
+}
+
+/* ══════════════════════════════════════════
+   DARK MODE
+══════════════════════════════════════════ */
+function toggleDark() {
+  document.body.classList.toggle('dark-mode');
+  var isDark = document.body.classList.contains('dark-mode');
+  document.getElementById('darkIcon').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('darkLabel').textContent = isDark ? 'Modo claro' : 'Modo noturno';
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+  if (window.mapaLeaflet) {
+    var tile = isDark
+      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+      : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    window.mapaLeaflet.eachLayer(function(l){ if(l._url) window.mapaLeaflet.removeLayer(l); });
+    L.tileLayer(tile, {maxZoom:18, attribution:'&copy; CartoDB'}).addTo(window.mapaLeaflet);
+  }
+}
+if (localStorage.getItem('darkMode') === '1') {
+  document.body.classList.add('dark-mode');
+  document.getElementById('darkIcon').textContent = '☀️';
+  document.getElementById('darkLabel').textContent = 'Modo claro';
+}
+
+/* ══════════════════════════════════════════
+   PARALLAX GIRASSÓIS
+══════════════════════════════════════════ */
+document.addEventListener('mousemove', function(e){
+  var rx = (e.clientX / window.innerWidth - 0.5) * 20;
+  var ry = (e.clientY / window.innerHeight - 0.5) * 20;
+  var sfL = document.getElementById('sfLeft');
+  var sfR = document.getElementById('sfRight');
+  if (sfL) sfL.style.transform = 'rotate(-20deg) translate('+rx*0.5+'px,'+ry*0.5+'px)';
+  if (sfR) sfR.style.transform = 'rotate(15deg) translate('+(rx*-0.5)+'px,'+(ry*-0.5)+'px)';
+});
+
+
+/* ══════════════════════════════════════════
+   CONTADOR TEMPO REAL
+══════════════════════════════════════════ */
+function atualizarContador() {
+  var inicio = new Date('2021-06-12T00:00:00');
+  var agora = new Date();
+  var anos = 0, meses = 0;
+  var d = new Date(inicio);
+  while(true){ var p = new Date(d); p.setFullYear(p.getFullYear()+1); if(p>agora) break; anos++; d=p; }
+  while(true){ var p2 = new Date(d); p2.setMonth(p2.getMonth()+1); if(p2>agora) break; meses++; d=p2; }
+  var restMs = agora - d;
+  var dias = Math.floor(restMs/(1000*60*60*24));
+  var horas = Math.floor((restMs%(1000*60*60*24))/(1000*60*60));
+  var min = Math.floor((restMs%(1000*60*60))/(1000*60));
+  var seg = Math.floor((restMs%(1000*60))/1000);
+  document.getElementById('cnt-anos').textContent = anos;
+  document.getElementById('cnt-meses').textContent = meses;
+  document.getElementById('cnt-dias').textContent = dias;
+  document.getElementById('cnt-horas').textContent = String(horas).padStart(2,'0');
+  document.getElementById('cnt-min').textContent = String(min).padStart(2,'0');
+  document.getElementById('cnt-seg').textContent = String(seg).padStart(2,'0');
+}
+atualizarContador();
+setInterval(atualizarContador, 1000);
+
+/* ══════════════════════════════════════════
+   STATS ANIMADOS
+══════════════════════════════════════════ */
+function animateCount(el, target, duration) {
+  var start = 0, step = target/(duration/16);
+  var timer = setInterval(function(){
+    start += step;
+    if(start >= target){ start = target; clearInterval(timer); }
+    el.textContent = Math.floor(start);
+  }, 16);
+}
+
+/* ══════════════════════════════════════════
+   VISUALIZADOR DE ÁUDIO
+══════════════════════════════════════════ */
+(function buildViz(){
+  var viz = document.getElementById('audioViz');
+  var barCount = 28;
+  for(var i=0; i<barCount; i++){
+    var bar = document.createElement('div');
+    bar.className = 'audio-bar';
+    var minH = 4 + Math.random()*8;
+    var maxH = 18 + Math.random()*28;
+    var dur = (0.6 + Math.random()*0.9).toFixed(2);
+    var delay = (Math.random()*0.8).toFixed(2);
+    bar.style.cssText = '--min-h:'+minH+'px;--max-h:'+maxH+'px;--dur:'+dur+'s;animation-delay:'+delay+'s;height:'+minH+'px;';
+    viz.appendChild(bar);
+  }
+  /* Pausar quando vídeo está tocando */
+  var vid = document.getElementById('mainVideo');
+  if(vid){
+    vid.addEventListener('play', function(){ document.getElementById('vizWrapper').style.opacity='0.3'; });
+    vid.addEventListener('pause', function(){ document.getElementById('vizWrapper').style.opacity='1'; });
+    vid.addEventListener('ended', function(){ document.getElementById('vizWrapper').style.opacity='1'; });
+  }
+})();
+
+/* ══════════════════════════════════════════
+   NUVEM DE PALAVRAS
+══════════════════════════════════════════ */
+var palavras = [
+  { text: 'carinhosa',   size: 2.4, color: '#C17B2A' },
+  { text: 'linda',       size: 2.8, color: '#D4A017' },
+  { text: 'meu lar',     size: 2.2, color: '#4A7BA7' },
+  { text: 'girassol',    size: 2.6, color: '#D4A017' },
+  { text: 'alegria',     size: 2.0, color: '#6B8C5A' },
+  { text: 'meu amor',    size: 3.2, color: '#C17B2A' },
+  { text: 'única',       size: 1.8, color: '#8B5A1A' },
+  { text: 'parceira',    size: 2.1, color: '#4A7BA7' },
+  { text: 'corajosa',    size: 1.9, color: '#6B8C5A' },
+  { text: 'minha vida',  size: 2.5, color: '#C17B2A' },
+  { text: 'sorriso',     size: 2.0, color: '#D4A017' },
+  { text: 'especial',    size: 1.7, color: '#8AAFC8' },
+  { text: 'peidinho',     size: 1.6, color: '#6B5040' },
+  { text: 'cumplicidade',size: 1.5, color: '#4A7BA7' },
+  { text: 'morenussa',         size: 2.3, color: '#D4A017' },
+  { text: 'meu tudo',    size: 2.7, color: '#C17B2A' },
+  { text: 'inteligente', size: 1.8, color: '#6B8C5A' },
+  { text: 'bonita',      size: 2.1, color: '#8B5A1A' },
+  { text: 'forte',       size: 1.7, color: '#4A7BA7' },
+  { text: 'luz',       size: 2.4, color: '#D4A017' },
+];
+
+function buildWordcloud(){
+  var container = document.getElementById('wordcloud');
+  var w = container.offsetWidth || 700;
+  var h = 320;
+  var placed = [];
+  function overlaps(x,y,pw,ph){
+    for(var i=0;i<placed.length;i++){
+      var p=placed[i];
+      if(x<p.x+p.w+16 && x+pw+16>p.x && y<p.y+p.h+10 && y+ph+10>p.y) return true;
+    }
+    return false;
+  }
+  palavras.forEach(function(word){
+    var el = document.createElement('span');
+    el.className = 'word-item';
+    el.textContent = word.text;
+    el.style.fontSize = word.size + 'rem';
+    el.style.color = word.color;
+    var rot = (Math.random()*20-10).toFixed(1);
+    var dur = (3+Math.random()*4).toFixed(1);
+    var mx = (Math.random()*16-8).toFixed(0);
+    var my = (Math.random()*16-8).toFixed(0);
+    var delay = (Math.random()*2).toFixed(1);
+    el.style.setProperty('--dur', dur+'s');
+    el.style.setProperty('--rot', rot+'deg');
+    el.style.setProperty('--mx', mx+'px');
+    el.style.setProperty('--my', my+'px');
+    el.style.animationDelay = delay+'s';
+    container.appendChild(el);
+    var pw = el.offsetWidth || word.text.length * word.size * 10;
+    var ph = el.offsetHeight || word.size * 20;
+    var tries = 0, x, y, ok = false;
+    while(tries < 200 && !ok){
+      x = 16 + Math.random()*(w - pw - 32);
+      y = 12 + Math.random()*(h - ph - 24);
+      if(!overlaps(x,y,pw,ph)){ ok=true; placed.push({x,y,w:pw,h:ph}); }
+      tries++;
+    }
+    if(!ok){ x=Math.random()*(w-pw); y=Math.random()*(h-ph); }
+    el.style.left = x+'px';
+    el.style.top = y+'px';
+  });
+}
+
+/* ══════════════════════════════════════════
+   FILMES & SÉRIES
+══════════════════════════════════════════ */
+var movies = [
+  { title: 'Stranger Things', emoji: '🔴', phrase: 'Aquelas noites assistindo juntos no sofá...', bg: 'linear-gradient(135deg, #1a1a2e, #c0392b)' },
+  { title: 'La Casa de Papel', emoji: '🔴', phrase: 'Bella Ciao tocando enquanto a gente ficava na boca de cada episódio!', bg: 'linear-gradient(135deg, #7f0000, #c0392b)' },
+  { title: 'O Gambito da Rainha', emoji: '♟️', phrase: 'Beth Harmon nos mostrou que genialidade vem com intensidade.', bg: 'linear-gradient(135deg, #2c3e50, #8e44ad)' },
+  { title: 'Berlim', emoji: '🎭', phrase: 'O spin-off que precisávamos! Tão bom quanto esperávamos?', bg: 'linear-gradient(135deg, #1a1a2e, #e74c3c)' },
+];
+
+function buildMovies(){
+  var grid = document.getElementById('moviesGrid');
+  movies.forEach(function(m, i){
+    var card = document.createElement('div');
+    card.className = 'movie-card';
+    card.style.transitionDelay = (i * 0.1) + 's';
+    card.innerHTML = '<div class="movie-poster-placeholder" style="background:'+m.bg+'">'+m.emoji+'</div>'
+      +'<div class="movie-info"><div class="movie-title">'+m.title+'</div><div class="movie-phrase">'+m.phrase+'</div></div>';
+    grid.appendChild(card);
+  });
+}
+
+/* ══════════════════════════════════════════
+   ADIVINHE A FOTO
+══════════════════════════════════════════ */
+var guessPhotos = [
+  { src: 'img/WhatsApp Image 2026-05-28 at 18.15.04.jpeg',       answer: ['praia', 'na praia'], hint: 'Lugar com mar e areia 🌊' },
+  { src: 'img/WhatsApp Image 2026-05-28 at 18.10.26 (1).jpeg',   answer: ['casa da minha tia', 'casa da tia dele'], hint: 'Visita em família 🏡' },
+  { src: 'img/WhatsApp Image 2026-05-28 at 18.10.27 (1).jpeg',   answer: ['restaurante de hamburguer', 'charada burguer'], hint: 'Hora do lanche gostoso 🍔' },
+  { src: 'img/WhatsApp Image 2026-05-28 at 18.10.28 (1).jpeg',   answer: ['na casa dele', 'no quarto dele'], hint: 'Momento bem reservado nosso 🛏️' },
+  { src: 'img/WhatsApp Image 2026-05-28 at 18.15.07.jpeg',       answer: ['no aeroporto', 'no aeroporto de guarulhos'], hint: 'Lugar de onde partem os aviões ✈️' },
+];
+var guessIdx = 0;
+var guessHearts = 3;
+var guessBlurStep = 0; // 0=max blur, 1=medium, 2=low, 3=sem blur
+var guessAnswered = false;
+
+var blurLevels = [
+  { blur: '24px', label: 'Nível 1 — muito desfocada 🌫️' },
+  { blur: '14px', label: 'Nível 2 — um pouco mais claro... 🌤️' },
+  { blur: '5px',  label: 'Nível 3 — quase lá! 👀' },
+  { blur: '0px',  label: 'Revelada! ✨' },
+];
+
+function renderGuessHearts(){
+  var el = document.getElementById('guessHearts');
+  el.innerHTML = '';
+  for(var i=0;i<3;i++){
+    el.innerHTML += i < guessHearts ? '❤️' : '🖤';
+  }
+}
+
+function loadGuessPhoto(){
+  var photo = guessPhotos[guessIdx];
+  var img = document.getElementById('guessImg');
+  img.src = photo.src;
+  img.style.filter = 'blur(' + blurLevels[guessBlurStep].blur + ')';
+  document.getElementById('guessBlurLabel').textContent = blurLevels[guessBlurStep].label;
+  document.getElementById('guessFeedback').textContent = '';
+  document.getElementById('guessInput').value = '';
+  document.getElementById('guessCounter').textContent = (guessIdx+1) + ' / ' + guessPhotos.length;
+  guessAnswered = false;
+  document.getElementById('guessInput').disabled = false;
+  renderGuessHearts();
+}
+
+function revealMore(){
+  if(guessBlurStep < blurLevels.length - 1){
+    guessBlurStep++;
+    var img = document.getElementById('guessImg');
+    img.style.transition = 'filter 1.2s ease';
+    img.style.filter = 'blur(' + blurLevels[guessBlurStep].blur + ')';
+    document.getElementById('guessBlurLabel').textContent = blurLevels[guessBlurStep].label;
+  }
+}
+
+function checkGuess(){
+  if(guessAnswered) return;
+  var input = normalizar(document.getElementById('guessInput').value);
+  if(!input) return;
+  var photo = guessPhotos[guessIdx];
+  var correct = photo.answer.some(function(a){ return input.indexOf(normalizar(a)) !== -1 || normalizar(a).indexOf(input) !== -1; });
+  var fb = document.getElementById('guessFeedback');
+  if(correct){
+    guessAnswered = true;
+    placar.fotos = (placar.fotos || 0) + 1;
+    document.getElementById('guessImg').style.filter = 'blur(0px)';
+    document.getElementById('guessImg').style.transition = 'filter 1s ease';
+    fb.textContent = '🎉 Acertou! Era ' + (photo.answer[0]) + '! Você me conhece bem. 💛';
+    fb.style.color = 'var(--verde-escuro)';
+    document.getElementById('guessInput').disabled = true;
+    spawnParticles('💛', 6);
+  } else {
+    guessHearts = Math.max(0, guessHearts - 1);
+    renderGuessHearts();
+    if(guessHearts === 0){
+      guessAnswered = true;
+      revealMore(); revealMore(); revealMore();
+      fb.textContent = '💔 Era: ' + photo.hint + '. Tudo bem, a gente aprende juntos!';
+      fb.style.color = 'var(--ocre)';
+      document.getElementById('guessInput').disabled = true;
+    } else {
+      fb.textContent = 'Hmm, não era isso... tenta de novo! 🌸';
+      fb.style.color = 'var(--ocre)';
+      document.getElementById('guessInput').value = '';
+    }
+  }
+}
+
+function nextGuess(){
+  guessIdx = (guessIdx + 1) % guessPhotos.length;
+  guessBlurStep = 0; guessHearts = 3;
+  loadGuessPhoto();
+}
+
+function prevGuess(){
+  guessIdx = (guessIdx - 1 + guessPhotos.length) % guessPhotos.length;
+  guessBlurStep = 0; guessHearts = 3;
+  loadGuessPhoto();
+}
+
+/* ══════════════════════════════════════════
+   MAPA LEAFLET
+══════════════════════════════════════════ */
+function initMapa() {
+  var isDark = document.body.classList.contains('dark-mode');
+  var tile = isDark
+    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+  var mapa = L.map('mapa-lugares', { center: [-22.5, -46.8], zoom: 6, zoomControl: true, scrollWheelZoom: false });
+  window.mapaLeaflet = mapa;
+  L.tileLayer(tile, { maxZoom: 18, attribution: '&copy; <a href="https://carto.com">CartoDB</a>' }).addTo(mapa);
+  var lugares = [
+    { nome: 'EE Jorge Duprat Figueiredo', lat: -23.6248, lng: -46.6891, desc: 'Onde a nossa história começou 🌻', emoji: '🏫' },
+    { nome: 'Pico do Jd. Santa Teresinha', lat: -23.6261, lng: -46.6884, desc: 'Vista linda, do nosso jeito', emoji: '⛰️' },
+    { nome: 'Shopping Aricanduva', lat: -23.5391, lng: -46.5194, desc: 'Nosso rolê favorito', emoji: '🛍️' },
+    { nome: 'Cinemark Aricanduva', lat: -23.5391, lng: -46.5194, desc: 'Pipoca e cinema com o amor 🎬', emoji: '🎬' },
+    { nome: 'Shopping Anália Franco', lat: -23.5413, lng: -46.5258, desc: 'Mais um rolê especial nosso 🛍️', emoji: '🛍️' },
+    { nome: 'Shopping Penha', lat: -23.5239, lng: -46.5433, desc: 'Mais um rolê nosso 🛍️', emoji: '🛍️' },
+    { nome: 'Faculdade UNICID', lat: -23.5431, lng: -46.5303, desc: 'Parte da nossa jornada juntos 📚 (ao lado do Metrô Carrão)', emoji: '📚' },
+    { nome: 'Parque do Carmo', lat: -23.5474, lng: -46.4873, desc: 'Passeios e momentos tranquilos 🌿', emoji: '🌿' },
+    { nome: 'Holambra', lat: -22.6375, lng: -47.0600, desc: 'Flores e amor em Holambra 🌷', emoji: '🌷' },
+    { nome: 'Neo Química Arena', lat: -23.5454, lng: -46.4743, desc: 'Show do Jão — que noite incrível! 🎤', emoji: '🎤' },
+    { nome: 'Aeroporto de Guarulhos', lat: -23.4356, lng: -46.4731, desc: 'De onde partimos e chegamos juntos ✈️', emoji: '✈️' },
+    { nome: 'Mogi Guaçu', lat: -22.3731, lng: -46.9430, desc: 'Saudades daqui 💛', emoji: '🏡' },
+    { nome: 'Estiva Gerbi', lat: -22.2680, lng: -46.9430, desc: 'Memórias especiais por aqui', emoji: '💛' },
+    { nome: 'Espírito Santo do Pinhal', lat: -22.1878, lng: -46.7414, desc: 'Momentos especiais por aqui 💛', emoji: '💛' },
+    { nome: 'Atibaia — Flor e Morango', lat: -23.1170, lng: -46.5508, desc: 'Morangos de Atibaia e muito amor 🍓', emoji: '🍓' },
+    { nome: 'Mairiporã', lat: -23.3172, lng: -46.5872, desc: 'Natureza e tranquilidade juntos 🌿', emoji: '🌿' },
+    { nome: 'Caieiras', lat: -23.3627, lng: -46.7411, desc: 'Momentos especiais por aqui 💛', emoji: '💛' },
+    { nome: 'Roller Jam', lat: -23.5497, lng: -46.6338, desc: 'Patinando juntos, que dupla! ⛸️', emoji: '⛸️' },
+    { nome: 'Allp Fit', lat: -23.5378, lng: -46.5201, desc: 'Suando junto também conta! 💪', emoji: '💪' },
+    { nome: 'Natory Sushi', lat: -23.5350, lng: -46.5150, desc: 'Sushi favorito do casal 🍣', emoji: '🍣' },
+    { nome: 'Nochi Sushi', lat: -23.5445, lng: -46.5270, desc: 'Mais um sushi delicioso juntos 🍣', emoji: '🍣' },
+    { nome: 'Sushi Carrão', lat: -23.5425, lng: -46.5310, desc: 'O sushi do nosso bairro 🍣', emoji: '🍣' },
+    { nome: 'Formatura da Escola', lat: -23.6248, lng: -46.6891, desc: 'Uma noite muito especial 🎓', emoji: '🎓' },
+    { nome: 'Praia Grande', lat: -24.0090, lng: -46.4130, desc: 'Mar, areia e você ao meu lado 🌊', emoji: '🏖️' },
+    { nome: 'Recife — Boa Viagem', lat: -8.1192, lng: -34.9001, desc: 'Praia de Boa Viagem, Recife 🌊', emoji: '🌊' },
+    { nome: 'Porto de Galinhas', lat: -8.7080, lng: -35.0055, desc: 'Piscinas naturais e muito amor 🐠', emoji: '🐠' },
+    { nome: 'Maragogi', lat: -9.0103, lng: -35.2228, desc: 'O Caribe brasileiro com você 🌴', emoji: '🌴' },
+    { nome: 'Alagoas', lat: -9.5713, lng: -36.7820, desc: 'Aventura em Alagoas juntos 🌊', emoji: '🌊' },
+    { nome: 'Baía de Maraçaípe', lat: -8.7472, lng: -35.0197, desc: 'Maraçaípe — pôr do sol inesquecível 🌅', emoji: '🌅' },
+    { nome: 'Sirinhaém', lat: -8.5942, lng: -35.1178, desc: 'Praias paradisíacas juntos 🏝️', emoji: '🏝️' },
+    { nome: 'Tamandaré', lat: -8.7582, lng: -35.1043, desc: 'Recife de corais e amor 🐠', emoji: '🐠' },
+    { nome: 'Parque das Esculturas Francisco Brennand', lat: -8.0603, lng: -34.8714, desc: 'Arte e cultura juntos em Recife 🎨', emoji: '🎨' },
+    { nome: 'Ilha do Recife', lat: -8.0631, lng: -34.8711, desc: 'Explorando o centro histórico de Recife 🏛️', emoji: '🏛️' },
+    { nome: 'Pernambuco', lat: -8.7832, lng: -36.5000, desc: 'Aventura nordestina do casal 🌵', emoji: '🌵' }
+  ];
+  var svgIcon = function(emoji) {
+    return L.divIcon({ html: '<div style="font-size:1.6rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));cursor:pointer;">' + emoji + '</div>', className: '', iconSize: [32,32], iconAnchor: [16,32], popupAnchor: [0,-34] });
+  };
+  lugares.forEach(function(l) {
+    var marker = L.marker([l.lat, l.lng], { icon: svgIcon(l.emoji) }).addTo(mapa);
+    marker.bindPopup('<div class="popup-title">'+l.emoji+' '+l.nome+'</div><div class="popup-desc">'+l.desc+'</div>');
+    marker.on('mouseover', function(){ this.openPopup(); });
+  });
+  setTimeout(function(){ mapa.invalidateSize(); }, 300);
+}
+
+/* ══════════════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════════════ */
+var allPhotos = [], currentPhoto = 0;
+function buildPhotoSrcs() { allPhotos = Array.from(document.querySelectorAll('.photo-placeholder img')).map(function(img){ return img.src; }); }
+window.openLightbox = function(idx) {
+  currentPhoto = idx;
+  var img = document.getElementById('lbImg');
+  img.src = allPhotos[idx];
+  document.getElementById('lbCounter').textContent = (idx+1)+' / '+allPhotos.length;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+function navLightbox(dir) {
+  currentPhoto = (currentPhoto + dir + allPhotos.length) % allPhotos.length;
+  var img = document.getElementById('lbImg');
+  img.style.opacity = '0'; img.style.transform = 'scale(0.92)';
+  setTimeout(function(){ img.src = allPhotos[currentPhoto]; img.style.opacity='1'; img.style.transform='scale(1)'; document.getElementById('lbCounter').textContent=(currentPhoto+1)+' / '+allPhotos.length; }, 180);
+}
+document.getElementById('lbClose').onclick = closeLightbox;
+document.getElementById('lbPrev').onclick = function(){ navLightbox(-1); };
+document.getElementById('lbNext').onclick = function(){ navLightbox(1); };
+document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target===this) closeLightbox(); });
+document.addEventListener('keydown', function(e){
+  if(!document.getElementById('lightbox').classList.contains('open')) return;
+  if(e.key==='ArrowLeft') navLightbox(-1);
+  if(e.key==='ArrowRight') navLightbox(1);
+  if(e.key==='Escape') closeLightbox();
+});
+var lbImg = document.getElementById('lbImg');
+lbImg.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+
+/* ══════════════════════════════════════════
+   ENVELOPE DECLARAÇÃO
+══════════════════════════════════════════ */
+var envelopeAberto = false;
+function abrirEnvelope() {
+  if(envelopeAberto) return;
+  envelopeAberto = true;
+  document.getElementById('envFlap').style.transform = 'rotateX(-160deg)';
+  document.getElementById('heartSeal').style.opacity = '0';
+  document.getElementById('envelopeHint').textContent = '💌 Uma carta para você...';
+  setTimeout(function(){
+    var card = document.getElementById('declaracaoCard');
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('envelope').style.cursor = 'default';
+  }, 600);
+}
+document.getElementById('envelope').addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') abrirEnvelope(); });
+
+/* ══════════════════════════════════════════
+   CARTA DO FUTURO
+   ALTERE A SENHA NA LINHA ABAIXO 👇
+══════════════════════════════════════════ */
+var SENHA_FUTURO = '2031'; /* ← TROQUE PELA SENHA QUE QUISER */
+var futuroErros = 0;
+function abrirFuturo() {
+  var input = document.getElementById('futuroInput').value;
+  var erro = document.getElementById('futuroErro');
+  if(input === SENHA_FUTURO){
+    document.getElementById('futuroLocked').style.display = 'none';
+    document.getElementById('futuroCarta').classList.add('open');
+    document.querySelector('.futuro-lock').textContent = '💌';
+    spawnParticles('💛', 10);
+  } else {
+    futuroErros++;
+    var msgs = ['Hmm... essa não é a senha, amor 🌸','Tenta de novo! Pensa no nosso amor 💛','Quase... você sabe essa! 🌻'];
+    erro.textContent = msgs[Math.min(futuroErros-1, msgs.length-1)];
+    document.getElementById('futuroInput').value = '';
+    document.getElementById('futuroInput').focus();
+  }
+}
+document.getElementById('futuroInput').addEventListener('keydown', function(e){ if(e.key==='Enter') abrirFuturo(); });
+
+/* ══════════════════════════════════════════
+   QUIZ
+══════════════════════════════════════════ */
+var quizData = [
+  { q: "Onde nos conhecemos?", opts: ["Na escola","Num evento","Por aplicativo","Pela internet"], ans: 0, fb: "Foi na escola que tudo começou! 🌻" },
+  { q: "Qual música representa nossa história?", opts: ["Perfect","Beginning Middle End","A Thousand Years","Can't Help Falling in Love"], ans: 1, fb: "Beginning Middle End — do começo ao fim, sempre! 💛" },
+  { q: "Quantos anos completamos neste aniversário?", opts: ["3 anos","4 anos","5 anos","6 anos"], ans: 2, fb: "5 anos lindos juntos! 🎉" },
+  { q: "O que nos fortaleceu ao longo dos anos?", opts: ["A distância","Cada desafio superado","A sorte","Pessoas ao redor"], ans: 1, fb: "Cada desafio nos tornou mais fortes! ✨" }
+];
+var score = 0, answered = 0;
+function buildQuiz() {
+  var container = document.getElementById('quizContainer');
+  quizData.forEach(function(item, i) {
+    var card = document.createElement('div'); card.className = 'quiz-card';
+    card.innerHTML = '<p class="quiz-question">'+(i+1)+'. '+item.q+'</p><div class="quiz-options">'+item.opts.map(function(o,j){ return '<button class="quiz-option" data-q="'+i+'" data-o="'+j+'">'+o+'</button>'; }).join('')+'</div><p class="quiz-feedback" id="fb-'+i+'"></p>';
+    container.appendChild(card);
+  });
+  container.addEventListener('click', function(e) {
+    var btn = e.target.closest('.quiz-option');
+    if(!btn || btn.classList.contains('disabled')) return;
+    var qi=+btn.dataset.q, oi=+btn.dataset.o;
+    var card=btn.closest('.quiz-card');
+    var btns=card.querySelectorAll('.quiz-option');
+    btns.forEach(function(b){ b.classList.add('disabled'); });
+    btns[quizData[qi].ans].classList.add('correct');
+    if(oi!==quizData[qi].ans) btn.classList.add('wrong');
+    else { score++; spawnParticles('💛', 4); }
+    document.getElementById('fb-'+qi).textContent = quizData[qi].fb;
+    answered++;
+    if(answered===quizData.length) showScore();
+  });
+}
+function showScore() {
+  var el=document.getElementById('quizScore'), txt=document.getElementById('quizScoreText'), emoji=document.getElementById('quizEmoji');
+  el.style.display='block';
+  placar.quiz = score;
+  var pct=score/quizData.length;
+  if(pct===1){ emoji.textContent='🌻🌻🌻'; txt.textContent='Perfeito! '+score+'/'+quizData.length+' — você guarda cada detalhe no coração!'; }
+  else if(pct>=0.5){ emoji.textContent='💛'; txt.textContent='Muito bem! '+score+'/'+quizData.length+' — cada memória importa!'; }
+  else{ emoji.textContent='🌱'; txt.textContent=score+'/'+quizData.length+' — mais memórias virão para guardar!'; }
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+buildQuiz();
+
+/* ══════════════════════════════════════════
+   VÍDEO AUTOPLAY
+══════════════════════════════════════════ */
+var vid = document.getElementById('mainVideo');
+function tryPlay() {
+  vid.muted = false;
+  vid.play().catch(function(){ vid.muted = true; vid.play(); });
+  document.removeEventListener('click', tryPlay);
+  document.removeEventListener('touchstart', tryPlay);
+}
+document.addEventListener('click', tryPlay);
+document.addEventListener('touchstart', tryPlay);
+vid.play().catch(function(){});
+
+/* ══════════════════════════════════════════
+   RESPOSTA VÍDEO
+══════════════════════════════════════════ */
+document.querySelectorAll('input[name="resposta"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    var msg = document.getElementById('answerMsg');
+    if(radio.value==='sim'){
+      placar.video = 1;
+      msg.textContent='Que alegria! Eu também te amarei sempre. 🌻💛';
+      msg.style.color='var(--ocre)';
+    } else {
+      placar.video = 0;
+      msg.textContent='Tudo bem... mas eu continuarei te amando do mesmo jeito. 😊';
+      msg.style.color='var(--azul)';
+    }
+  });
+});
+
+/* ══════════════════════════════════════════
+   COMPARTILHAR
+══════════════════════════════════════════ */
+function compartilhar(e) {
+  e.preventDefault();
+  var txt = encodeURIComponent('José Henrique fez algo muito especial pra mim 🌻💛 Veja aqui: ' + window.location.href);
+  window.open('https://wa.me/?text=' + txt, '_blank');
+}
+
+/* ══════════════════════════════════════════
+   PARTÍCULAS DE SEÇÃO (ao rolar)
+══════════════════════════════════════════ */
+var sectionSymbols = ['🌻','💛','🌸','✨','💛','🌼'];
+var lastParticleSection = null;
+function spawnParticles(symbol, count, x, y) {
+  for(var i=0; i<count; i++){
+    (function(i){
+      setTimeout(function(){
+        var p = document.createElement('div');
+        p.className = 'section-particle';
+        p.textContent = symbol || sectionSymbols[Math.floor(Math.random()*sectionSymbols.length)];
+        var px = x !== undefined ? x : (20 + Math.random()*60) + 'vw';
+        var py = y !== undefined ? y : (30 + Math.random()*40) + 'vh';
+        p.style.left = (typeof px === 'string' ? px : px+'px');
+        p.style.top = (typeof py === 'string' ? py : py+'px');
+        p.style.fontSize = (1 + Math.random()*0.8) + 'rem';
+        p.style.animationDelay = (Math.random()*0.3)+'s';
+        document.body.appendChild(p);
+        setTimeout(function(){ p.remove(); }, 2200);
+      }, i * 120);
+    })(i);
+  }
+}
+
+/* Seções que disparam partículas ao entrar */
+var particleSections = document.querySelectorAll('section');
+var sectionParticleObserver = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting && entry.target !== lastParticleSection){
+      lastParticleSection = entry.target;
+      spawnParticles(null, 5);
+    }
+  });
+}, { threshold: 0.3 });
+particleSections.forEach(function(s){ sectionParticleObserver.observe(s); });
+
+/* ══════════════════════════════════════════
+   INTERSECTION OBSERVER (fade-in geral)
+══════════════════════════════════════════ */
+var io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      var nums = entry.target.querySelectorAll ? entry.target.querySelectorAll('.stat-num-animated') : [];
+      nums.forEach(function(el){
+        if(!el.dataset.animated){ el.dataset.animated='1'; animateCount(el, +el.dataset.target, 1800); }
+      });
+      if(entry.target.id==='mapa-lugares' && !window.mapaIniciado){ window.mapaIniciado=true; setTimeout(initMapa, 100); }
+      /* Wordcloud */
+      if(entry.target.id==='wordcloud' && !entry.target.dataset.built){ entry.target.dataset.built='1'; setTimeout(buildWordcloud, 100); }
+      /* Movies */
+      if(entry.target.id==='moviesGrid' && !entry.target.dataset.built){ entry.target.dataset.built='1'; buildMovies(); setTimeout(function(){ document.querySelectorAll('.movie-card').forEach(function(c){ io.observe(c); }); }, 100); }
+      if(entry.target.classList.contains('movie-card')){ entry.target.classList.add('visible'); }
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in, .timeline-item, .quiz-card, .stat-card, #mapa-lugares').forEach(function(el){ io.observe(el); });
+
+/* ══════════════════════════════════════════
+   FOTOS: LIGHTBOX + CASCADE
+══════════════════════════════════════════ */
+buildPhotoSrcs();
+var photoObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if(entry.isIntersecting){
+      var cards = entry.target.querySelectorAll('.photo-placeholder');
+      cards.forEach(function(card, i){
+        setTimeout(function(){ card.classList.add('photo-visible'); setTimeout(function(){ card.classList.add('photo-done'); }, 700); }, i*60);
+      });
+      photoObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+var grid = document.getElementById('photoGrid');
+if(grid) photoObserver.observe(grid);
+document.querySelectorAll('.photo-placeholder').forEach(function(card){
+  card.addEventListener('click', function(){ openLightbox(+card.dataset.index); });
+});
+
+/* ══════════════════════════════════════════
+   PÉTALAS FLUTUANTES
+══════════════════════════════════════════ */
+var symbols = ['🌸','🌼','✨','🌻'];
+function createPetal() {
+  var p = document.createElement('div'); p.className = 'petal';
+  p.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+  p.style.left = Math.random()*100+'vw'; p.style.top = '-2rem';
+  var dur = 8+Math.random()*10;
+  p.style.animationDuration = dur+'s'; p.style.animationDelay = Math.random()*4+'s';
+  p.style.fontSize = (0.7+Math.random()*0.8)+'rem';
+  document.body.appendChild(p);
+  setTimeout(function(){ p.remove(); }, (dur+4)*1000);
+}
+setInterval(createPetal, 2500);
+for(var i=0;i<4;i++) setTimeout(createPetal, i*600);
+
+/* ══════════════════════════════════════════
+   SWIPE LIGHTBOX MOBILE
+══════════════════════════════════════════ */
+var lbTouchStartX = 0;
+document.getElementById('lightbox').addEventListener('touchstart', function(e){ lbTouchStartX = e.touches[0].clientX; });
+document.getElementById('lightbox').addEventListener('touchend', function(e){
+  var diff = lbTouchStartX - e.changedTouches[0].clientX;
+  if(Math.abs(diff)>50) navLightbox(diff>0?1:-1);
+});
+
+/* ══════════════════════════════════════════
+   INICIALIZAR ADIVINHE A FOTO
+══════════════════════════════════════════ */
+loadGuessPhoto();
+</script>
+<!-- ══ BOTÃO DA SAUDADE ══ -->
+<button id="saudadeBtn" onclick="mostrarSaudade()" title="Uma surpresa para você 💛" style="position:fixed;bottom:1.8rem;right:1.8rem;z-index:8000;width:60px;height:60px;border-radius:50%;border:2px solid rgba(212,160,23,0.6);background:rgba(250,243,224,0.92);font-size:1.8rem;cursor:pointer;box-shadow:0 4px 24px rgba(193,123,42,0.25);backdrop-filter:blur(8px);transition:transform 0.3s ease,box-shadow 0.3s ease;" onmouseover="this.style.transform='scale(1.12)'" onmouseout="this.style.transform='scale(1)'">💌</button>
+
+<div id="saudadeToast" style="display:none;position:fixed;bottom:6rem;right:1.5rem;z-index:8001;max-width:300px;background:linear-gradient(135deg,#FAF3E0,#F0E6C8);border:1.5px solid rgba(212,160,23,0.5);border-radius:1.2rem;padding:1.2rem 1.4rem;box-shadow:0 8px 32px rgba(193,123,42,0.2);font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:#7A4E2D;line-height:1.6;opacity:0;transform:translateY(12px);transition:opacity 0.5s ease,transform 0.5s ease;">
+  <span id="saudadeTexto"></span>
+  <button onclick="fecharSaudade()" style="position:absolute;top:0.5rem;right:0.7rem;background:none;border:none;color:#C17B2A;font-size:1rem;cursor:pointer;line-height:1;">✕</button>
+</div>
+
+<script>
+var mensagensSaudade = [
+  "Você se lembra quando fomos a Holambra? Os girassóis eram bonitos, mas nenhum chegava perto de você. 🌻",
+  "Hoje eu te amo 1% mais do que ontem. E amanhã vou te amar 1% mais do que hoje. A matemática do amor. 💛",
+  "Já pensou que fomos à Praia Grande, Recife, Maragogi... e em todo lugar, a minha parte favorita era você ao lado. 🌊",
+  "Você se lembra do Roller Jam? Eu estava tentando não cair e tentando não te encarar ao mesmo tempo. Perdi nas duas. ⛸️",
+  "5 anos, milhares de memórias, e a favorita ainda não aconteceu — é a próxima que vou viver com você. 🌸",
+  "Porto de Galinhas com você foi o dia mais bonito da minha vida até então. Cada dia seguinte superou. 🐠",
+  "Você se lembra da nossa primeira vez no cinema juntos? Eu não me lembro do filme. Só lembro de você. 🎬",
+  "Às vezes penso no começo, na escola, naquele olhar... e fico feliz que o destino tenha decidido que era a gente. 🌻",
+  "Se eu pudesse te dar uma coisa hoje, seria um dia inteiro sem preocupações — só nós dois e tempo de sobra. 💛",
+  "Atibaia, flores, morangos, você de mão dada comigo... esse dia eu nunca vou esquecer. 🍓",
+  "Hoje não é um dia especial. É apenas mais um dia em que me sinto sortudo por te ter. 🌼",
+  "Eu guardo você em todas as músicas que me fazem lembrar de algo bom. São muitas músicas. 🎵",
+];
+var saudadeTimeout = null;
+function mostrarSaudade() {
+  var idx = Math.floor(Math.random() * mensagensSaudade.length);
+  document.getElementById('saudadeTexto').textContent = mensagensSaudade[idx];
+  var toast = document.getElementById('saudadeToast');
+  toast.style.display = 'block';
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    toast.style.opacity = '1'; toast.style.transform = 'translateY(0)';
+  }); });
+  clearTimeout(saudadeTimeout);
+  saudadeTimeout = setTimeout(fecharSaudade, 7000);
+}
+function fecharSaudade() {
+  var toast = document.getElementById('saudadeToast');
+  toast.style.opacity = '0'; toast.style.transform = 'translateY(12px)';
+  setTimeout(function(){ toast.style.display = 'none'; }, 500);
+}
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAzt3GqcZFhonUQvrR44cPRhtd-b3B0jI4",
+    authDomain: "site-do-amor-62262.firebaseapp.com",
+    projectId: "site-do-amor-62262",
+    storageBucket: "site-do-amor-62262.firebasestorage.app",
+    messagingSenderId: "44677901298",
+    appId: "1:44677901298:web:3ba5a7228d1831260e596b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ── MURAL DE RECADOS ──
+  window.enviarRecado = async function() {
+    const input = document.getElementById('muralInput');
+    if (!input) return;
+    const texto = input.value.trim();
+    if (!texto) return;
+    try {
+      await addDoc(collection(db, "recados"), {
+        conteudo: texto,
+        timestamp: serverTimestamp(),
+        cor: ["#FFEB3B","#FF9800","#F06292","#64B5F6","#81C784","#BA68C8","#FF7043","#4DD0E1"][Math.floor(Math.random()*8)]
+      });
+      input.value = "";
+    } catch (e) { console.error("Erro ao fixar recado:", e); }
+  };
+
+  const gridMural = document.getElementById('muralGrid');
+  if (gridMural) {
+    onSnapshot(query(collection(db, "recados"), orderBy("timestamp", "desc")), (snapshot) => {
+      gridMural.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const d = doc.data();
+        const card = document.createElement('div');
+        card.style.cssText = `background:${d.cor||'#FBF3D5'};padding:1.2rem;border-radius:0.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.06);font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:#3A2A1A;transform:rotate(${(Math.random()*4-2).toFixed(1)}deg);word-break:break-word;text-align:center;`;
+        card.textContent = d.conteudo;
+        gridMural.appendChild(card);
+      });
+    });
+  }
+
+  // ── MURAL DE FILMES ──
+  window.adicionarFilme = async function() {
+    const input = document.getElementById('filmeInput');
+    if (!input) return;
+    const nome = input.value.trim();
+    if (!nome) return;
+    try {
+      await addDoc(collection(db, "filmes"), {
+        nome: nome,
+        timestamp: serverTimestamp()
+      });
+      input.value = "";
+    } catch (e) { console.error("Erro ao adicionar filme:", e); }
+  };
+
+  document.getElementById('filmeInput')?.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') window.adicionarFilme();
+  });
+
+  const gridFilmes = document.getElementById('filmesGrid');
+  if (gridFilmes) {
+    onSnapshot(query(collection(db, "filmes"), orderBy("timestamp", "asc")), function(snapshot) {
+      gridFilmes.innerHTML = "";
+      snapshot.forEach(function(doc) {
+        const d = doc.data();
+        const tag = document.createElement('div');
+        const cores = ['#1a1a2e','#2c3e50','#4a1942','#1a3a2e','#3a1a1a','#1a2a3a'];
+        const cor = cores[Math.floor(Math.random()*cores.length)];
+        tag.style.cssText = `background:${cor};border:none;border-radius:0.8rem;padding:0.9rem 1.1rem;font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:#FAF3E0;display:flex;align-items:center;gap:0.6rem;box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:transform 0.2s ease;cursor:default;min-width:140px;`;
+        tag.onmouseover = function() { tag.style.transform = 'translateY(-3px)'; };
+        tag.onmouseout = function() { tag.style.transform = 'translateY(0)'; };
+        tag.innerHTML = '🎬 ' + d.nome;
+        gridFilmes.appendChild(tag);
+      });
+    });
+  }
+
+</script>
+
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+  new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
+<script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="96zVt3HNt5Z_w3Z7z79AP";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+
+</body>
+</html>
