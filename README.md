@@ -10,10 +10,17 @@
 </p>
 
 ---
+## 🌻 Experimente o Projeto
 
-##  💡 Visite o Projeto Ativo
-> 🚀 **[CLIQUE AQUI PARA ACESSAR O SITE E VER A EXPERIÊNCIA COMPLETA!](SEU_LINK_DO_GITHUB_PAGES_OU_VERCEL_AQUI)**
+<p align="center">
+  <a href="https://henrique-lima7.github.io/Meu-amor/" target="_blank">
+    <img src="https://img.shields.io/badge/💛%20Acessar%20Projeto%20🌻-FBC02D?style=for-the-badge&labelColor=FFF8E1&color=FBC02D" alt="Acessar Projeto">
+  </a>
+</p>
 
+<p align="center">
+  ✨ Clique no botão acima para conhecer a experiência completa do projeto. ✨
+</p>
 ---
 
 ##  🌻 Sobre o Universo do Projeto
