@@ -55,7 +55,7 @@ Para **recrutadores e desenvolvedores**, este repositório destaca maturidade t�
 
 ---
 
-## 🛠️  Stack Tecnológica (Under the Hood)
+## 🛠️  Stack Tecnológica
 
 O projeto foi construído puramente com tecnologias nativas (Vanilla) para garantir máxima performance de carregamento e execução:
 
@@ -79,5 +79,4 @@ O projeto foi construído puramente com tecnologias nativas (Vanilla) para garan
 * **Clean Code:** Organização lógica legível, modular e de fácil manutenção, mesmo concentrada em arquitetura limpa de arquivo estático.
 
 ---
-👤 💛 Desenvolvedor
-José Henrique
+💛 Desenvolvedor:👤 José Henrique. 
