@@ -1,26 +1,18 @@
-# <p align="center">🌻 José Henrique & Nicoly — 5 Anos 🌻</p>
+# 🌻 José Henrique & Nicoly — 5 Anos 🌻
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Conclu%C3%ADdo-ecc94b?style=for-the-badge&logo=github" alt="Status Concluído">
-  <img src="https://img.shields.io/badge/Ambiente-Web_Premium-dd6b20?style=for-the-badge" alt="Plataforma Web">
-</p>
-
-<p align="center">
-  <font size="4" color="#D4A017"><i>"Eu te amarei no começo, no meio e até o fim."</i></font>
-</p>
-
+---
 
 ## 🌻 Experimente o Projeto
 
+---
+
 <p align="center">
-  <a href="https://henrique-lima7.github.io/Meu-amor/" target="_blank">
-    <img src="https://img.shields.io/badge/💛%20Acessar%20Projeto%20🌻-FBC02D?style=for-the-badge&labelColor=FFF8E1&color=FBC02D" alt="Acessar Projeto">
+  <a href="https://henrique-lima7.github.io/Meu-amor/">
+    <img src="https://img.shields.io/badge/💛%20ACESSAR%20PROJETO%20🌻-FBC02D?style=for-the-badge" />
   </a>
 </p>
 
-<p align="center">
-  ✨ Clique no botão acima para conhecer a experiência completa do projeto. ✨
-</p>
+✨ Clique no botão acima para conhecer a experiência completa do projeto. ✨
 
 
 ##  🌻 Sobre o Universo do Projeto
