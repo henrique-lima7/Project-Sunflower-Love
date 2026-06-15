@@ -11,12 +11,12 @@
 
 ---
 
-## 🔗 💡 Visite o Projeto Ativo
+##  💡 Visite o Projeto Ativo
 > 🚀 **[CLIQUE AQUI PARA ACESSAR O SITE E VER A EXPERIÊNCIA COMPLETA!](SEU_LINK_DO_GITHUB_PAGES_OU_VERCEL_AQUI)**
 
 ---
 
-## 📝 🌻 Sobre o Universo do Projeto
+##  🌻 Sobre o Universo do Projeto
 
 Este projeto é uma aplicação web front-end de altíssima fidelidade visual e interativa, desenvolvida sob o conceito estético de **girassóis e tons outonais (amarelo, ocre e creme)**. Criado originalmente para celebrar uma história de **5 anos de namoro**, o software transcende uma simples página estática: ele entrega uma jornada de usuário imersiva, combinando design afetivo (*emotional design*) com engenharia de software robusta.
 
@@ -24,7 +24,7 @@ Para **recrutadores e desenvolvedores**, este repositório destaca maturidade t�
 
 ---
 
-## ✨ 🎨 Engenharia de UI/UX & Funcionalidades
+## ✨  Engenharia de UI/UX & Funcionalidades
 
 <table>
   <tr>
@@ -55,7 +55,7 @@ Para **recrutadores e desenvolvedores**, este repositório destaca maturidade t�
 
 ---
 
-## 🛠️ 💻 Stack Tecnológica (Under the Hood)
+## 🛠️  Stack Tecnológica (Under the Hood)
 
 O projeto foi construído puramente com tecnologias nativas (Vanilla) para garantir máxima performance de carregamento e execução:
 
@@ -72,21 +72,12 @@ O projeto foi construído puramente com tecnologias nativas (Vanilla) para garan
 
 ---
 
-## 📐 ⚡ Diferenciais Técnicos e Performance
+## ⚡ Diferenciais Técnicos e Performance
 
 * **Non-Blocking JS:** Scripts de terceiros (Chatbase, Firebase e VLibras) injetados de forma assíncrona para garantir que o *First Contentful Paint* (FCP) da página principal seja quase instantâneo.
 * **Layout Fluido:** Design responsivo adaptado cirurgicamente desde telas mobile pequenas até monitores ultrawide através de funções CSS como `clamp()`.
 * **Clean Code:** Organização lógica legível, modular e de fácil manutenção, mesmo concentrada em arquitetura limpa de arquivo estático.
 
 ---
-
-## 🚀 🛠️ Execução Local
-
-```bash
-# 1. Clone o repositório repleto de girassóis
-git clone [https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git](https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git)
-
-# 2. Acesse o diretório
-cd NOME_DO_REPOSITORIO
-
-# 3. Abra o index.html diretamente no navegador ou utilize a extensão Live Server do VS Code.
+👤 💛 Desenvolvedor
+José Henrique
