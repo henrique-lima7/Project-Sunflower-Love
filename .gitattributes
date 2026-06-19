@@ -1,7 +1,5 @@
 # Força o GitHub a reconhecer arquivos .js como a linguagem principal
 *.js linguist-language=JavaScript
 
-# Se você tiver arquivos CSS ou HTML muito grandes (como bibliotecas ou frameworks)
-# que estão roubando o topo do gráfico, descomente e ajuste as linhas abaixo:
-# pasta_do_css/arquivogrande.css linguist-vendored
-# pasta_do_html/arquivogrande.html linguist-vendored
+# Diz ao GitHub para não contar o peso do arquivo index.html no gráfico
+index.html linguist-vendored
