@@ -1,5 +1,6 @@
-# Força o GitHub a reconhecer arquivos .js como a linguagem principal
-*.js linguist-language=JavaScript
+# Diz ao GitHub para detectar o HTML e CSS, mas somar o peso deles ao JavaScript
+*.html linguist-language=JavaScript
+*.css linguist-language=JavaScript
 
-# Diz ao GitHub para não contar o peso do arquivo index.html no gráfico
-index.html linguist-vendored
+# Garante que o JS continue sendo tratado como JS
+*.js linguist-language=JavaScript
