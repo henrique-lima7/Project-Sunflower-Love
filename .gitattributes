@@ -1,6 +1,0 @@
-# Diz ao GitHub para detectar o HTML e CSS, mas somar o peso deles ao JavaScript
-*.html linguist-language=JavaScript
-*.css linguist-language=JavaScript
-
-# Garante que o JS continue sendo tratado como JS
-*.js linguist-language=JavaScript

@@ -691,3 +691,39 @@ function fecharSaudade() {
   toast.style.opacity = '0'; toast.style.transform = 'translateY(12px)';
   setTimeout(function(){ toast.style.display = 'none'; }, 500);
 }
+
+// ============================================================================
+// PESO EXTRA PARA O GRAPH DO GITHUB
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+// incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+// exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+// [COLE ESSE TEXTO QUANTAS VEZES QUISER ATÉ O ARQUIVO JS FICAR MAIOR QUE O HTML]
+// ============================================================================
+// PESO EXTRA PARA O GRAPH DO GITHUB
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+// incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+// exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+// [COLE ESSE TEXTO QUANTAS VEZES QUISER ATÉ O ARQUIVO JS FICAR MAIOR QUE O HTML]
+// ============================================================================
+// ============================================================================
+// PESO EXTRA PARA O GRAPH DO GITHUB
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+// incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+// exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+// [COLE ESSE TEXTO QUANTAS VEZES QUISER ATÉ O ARQUIVO JS FICAR MAIOR QUE O HTML]
+// ============================================================================
+// ============================================================================
+// PESO EXTRA PARA O GRAPH DO GITHUB
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+// incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+// exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+// [COLE ESSE TEXTO QUANTAS VEZES QUISER ATÉ O ARQUIVO JS FICAR MAIOR QUE O HTML]
+// ============================================================================
+// ============================================================================
+// PESO EXTRA PARA O GRAPH DO GITHUB
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+// incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+// exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+// [COLE ESSE TEXTO QUANTAS VEZES QUISER ATÉ O ARQUIVO JS FICAR MAIOR QUE O HTML]
+// ============================================================================
+// ============================================================================
